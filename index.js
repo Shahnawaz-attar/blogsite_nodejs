@@ -17,6 +17,8 @@ app.set('view engine', 'ejs');
 
 // set routes
 require('./App/routes/website_url')(app)
+require('./App/routes/admin_url')(app)
+require('./App/routes/users_url')(app)
 
 
 const port = process.env.PORT || 3000
