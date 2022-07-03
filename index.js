@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const cors = require('cors')
 const path = require('path')
-
-
+// require('dotenv').config();
+//db connect
+require('./App/db');
 
 // app use
 app.use(cors());
@@ -19,6 +20,7 @@ app.set('view engine', 'ejs');
 require('./App/routes/website_url')(app)
 require('./App/routes/admin_url')(app)
 require('./App/routes/users_url')(app)
+require('./App/routes/auth_url')(app)
 
 
 const port = process.env.PORT || 3000
@@ -27,10 +29,10 @@ app.listen(port, () => {
 })
 
 // Express error handling
-app.use((req, res, next) => {
-    setImmediate(() => {
-        next(new Error('somthing went wrong'))
-    })
+// app.use((req, res, next) => {
+//     setImmediate(() => {
+//         next(new Error('somthing went wrong'))
+//     })
 
-})
+// })
 
