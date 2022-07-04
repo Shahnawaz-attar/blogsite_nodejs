@@ -2,9 +2,25 @@ const express = require('express');
 const app = express();
 const cors = require('cors')
 const path = require('path')
+var session = require('express-session');
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 // require('dotenv').config();
 //db connect
 require('./App/db');
+
+
+    app.use(session({
+        secret: 'secret',
+        resave: true,
+        saveUninitialized: true,
+        cookie: {
+            maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+        }
+        
+    }));
+  
 
 // app use
 app.use(cors());

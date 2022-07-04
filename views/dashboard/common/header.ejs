@@ -15,6 +15,7 @@
   <!-- Custom style CSS -->
   <link rel="stylesheet" href="/dashboard/assets/css/custom.css">
   <link rel='shortcut icon' type='image/x-icon' href='/dashboard/assets/img/favicon.ico' />
+  <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" >
 </head>
 
 <body>
@@ -157,7 +158,7 @@
               class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="/dashboard/assets/img/user.png"
                 class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
             <div class="dropdown-menu dropdown-menu-right pullDown">
-              <div class="dropdown-title">Hello Sarah Smith</div>
+              <div class="dropdown-title">Hello <%- username%></div>
               <a href="profile.html" class="dropdown-item has-icon"> <i class="far
 										fa-user"></i> Profile
               </a> <a href="timeline.html" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
@@ -166,7 +167,7 @@
                 Settings
               </a>
               <div class="dropdown-divider"></div>
-              <a href="auth-login.html" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
+              <a href="/logout" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
                 Logout
               </a>
             </div>
@@ -182,17 +183,20 @@
           </div>
           <ul class="sidebar-menu">
             <li class="menu-header">Main</li>
-            <li class="dropdown active">
+            <li class="dropdown">
               <a href="/<%- url_usename%>" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
             </li>
-            <li class="dropdown">
+            <li class="dropdown ">
+              <a href="/<%- url_usename%>/create-post" class="nav-link"><i data-feather="camera"></i><span>Post</span></a>
+            </li>
+            <!-- <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i
                   data-feather="briefcase"></i><span>Widgets</span></a>
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="widget-chart.html">Chart Widgets</a></li>
                 <li><a class="nav-link" href="widget-data.html">Data Widgets</a></li>
               </ul>
-            </li>
+            </li> -->
             
           </ul>
         </aside>
