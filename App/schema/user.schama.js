@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
-const schema = mongoose.schema;
+const Schema = mongoose.Schema;
 const uniqueValidator = require('mongoose-unique-validator');
 
-let userSchema = new schema(
+
+let userSchema = new Schema(
     {
 
-        name: {
+        username: {
             type: String
         },
         email: {
@@ -14,7 +15,20 @@ let userSchema = new schema(
         },
         password: {
             type: String
+        },
+        role: {
+            type: String,
+        },
+        isActive: {
+            type: Number,
+            default: 0
+        },
+        created_at :  {
+            type: Date,
+            default: Date.now
         }
+        
+
     },
     {
         collection: 'users'
