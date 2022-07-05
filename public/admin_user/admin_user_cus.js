@@ -143,14 +143,13 @@ $(function () {
 
     });
 });
-$("#table-1").dataTable();
 
 $('.deleteuni').on('click', function (e) {
     e.preventDefault();
     // delete by get method
     $.ajax({
         url: $(this).attr('href'),
-        type: 'get',
+        type: 'GET',
         dataType: 'json',
         success: function (response) {
             if (response.status) {

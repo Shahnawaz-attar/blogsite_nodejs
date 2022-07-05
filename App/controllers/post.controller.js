@@ -20,7 +20,7 @@ exports.save_post =  (req, res) => {
 
             result.then(data => {
                 if (data != null) {
-                    res.send({ status: true, url: '/admin/create-post', msg: 'successfully created' })
+                    res.send({ status: true, url: '/admin/post_list', msg: 'successfully created' })
                 } else {
                     res.send({ status: false, url: '/admin/create-post', msg: 'fail to create' })
                 }
