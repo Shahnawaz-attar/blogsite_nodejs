@@ -1,4 +1,4 @@
-<%- include('./common/header.ejs') %>
+<%- include('../common/header.ejs') %>
 
     <!-- Main Content -->
     <div class="main-content">
@@ -10,13 +10,13 @@
                             <div class="card-header">
                                 <h4 class="panel-title">Add Post</h4>
                                 <div class="ml-auto">
-                                    <a href="/admin/post_list" class="btn btn-primary "><i class="fa fa-list"></i> list</a>
+                                    <a href="/<%- role %>/post_list" class="btn btn-primary "><i class="fa fa-list"></i> list</a>
                                 </div>
                             </div>
 
                             <div class="card-body">
 
-                                <form class="upload_data" action="/admin/save_post" method="POST">
+                                <form class="upload_data" action="/<%- role %>/save_post" method="POST">
 
 
                                     <div class="form row mx-auto">
@@ -90,4 +90,4 @@
 
 
 
-    <%- include('./common/footer.ejs') %>
+    <%- include('../common/footer.ejs') %>

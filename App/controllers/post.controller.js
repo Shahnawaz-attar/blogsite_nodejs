@@ -14,7 +14,7 @@ exports.save_post =  (req, res) => {
             let post_data = {
                 title: req.body.title,
                 description: req.body.description,
-                img: req.file.filename
+                coverImg: req.file.filename
             }
             let result = post_model.create_post(post_data);
 
@@ -34,6 +34,31 @@ exports.save_post =  (req, res) => {
 
 
 
+}
+
+exports.get_posts = (req,res)=>{
+
+    let get_posts = post_model.get_posts();
+    get_posts.then(post=>{
+       
+        res.render('dashboard/posts/post_list' , {post:post});
+    })
+
+}
+
+exports.delete_post = (req,res)=>{
+
+
+    let delete_post = post_model.delete_post(req.params.id);
+
+    delete_post.then(post=>{
+        if (post != null) {
+            res.send({ status: true, url: '/admin/post_list', msg: 'successfully Delete' })
+        } else {
+            res.send({ status: false, url: '/admin/post_list', msg: 'fail to Delete' })
+        }
+    })
+    
 }
 
 

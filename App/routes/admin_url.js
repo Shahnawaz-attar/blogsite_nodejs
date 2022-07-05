@@ -13,12 +13,19 @@ module.exports = (app) => {
        
     });
 
-    app.get('/admin/create-post',(_,res)=>{
+    app.get('/admin/create-post',redirectLogin,(_,res)=>{
             
-        res.render('dashboard/create-post');
+        res.render('dashboard/posts/create-post');
         
     });
     app.post('/admin/save_post',post_controller.save_post);
+
+    app.get('/admin/post_list',redirectLogin,post_controller.get_posts);
+
+    // app.get('/admin/edit-post/:id',redirectLogin,post_controller.get_post_by_id);
+
+
+    app.get('/admin/post_delete/:id',post_controller.delete_post);
        
       
    

@@ -4,11 +4,17 @@ const cors = require('cors')
 const path = require('path')
 var session = require('express-session');
 var bodyParser = require('body-parser');
+const moment = require('moment');
+const connect_mongo = require('connect-mongo');
+const MongoStore = require('connect-mongo');
+app.use((req, res, next) => {
+    res.locals.moment = moment;
+    next();
+});
 
 // require('dotenv').config();
 //db connect
 require('./App/db');
-
 
     app.use(session({
         secret: 'secret',
@@ -16,10 +22,28 @@ require('./App/db');
         saveUninitialized: true,
         cookie: {
             maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
-        }
+        },
+        store: MongoStore.create({
+            mongoUrl: process.env.MONGO_URI,
+            ttl: 24 * 60 * 60 * 7 // 1 week
+        })
+
+
+
+
+        
         
     }));
-  
+
+    app.use((req, res, next) => {
+        req.url_params = req.url.split('/')[1];
+        app.locals.url_params = req.url_params;
+        if (app.locals.url_params != '') {
+          app.locals.role = app.locals.url_params;
+        } 
+        next();
+      }
+      );
 
 // app use
 // app.use(cors());

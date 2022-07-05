@@ -32,9 +32,7 @@ exports.check_admin = (req,res)=>{
                 req.session.username = data.username;
                 req.session.role = data.role;
 
-                req.app.locals.adminId = data._id;
-                req.app.locals.username = data.username;
-                req.app.locals.role = data.role;
+           
          
 
                 res.send({success:'success',data:data,url:'/admin' , msg : "Welcom '"+data.username+"'"})
@@ -67,9 +65,9 @@ exports.validator = {
 exports.logout = (req,res)=>{
 
     req.session.destroy();
-    delete req.app.locals.adminId;
-    delete req.app.locals.username;
-    delete req.app.locals.role;
+    // delete req.app.locals.adminId;
+    // delete req.app.locals.username;
+    // delete req.app.locals.role;
 
     res.redirect('/login')
 }

@@ -143,3 +143,28 @@ $(function () {
 
     });
 });
+$("#table-1").dataTable();
+
+$('.deleteuni').on('click', function (e) {
+    e.preventDefault();
+    // delete by get method
+    $.ajax({
+        url: $(this).attr('href'),
+        type: 'get',
+        dataType: 'json',
+        success: function (response) {
+            if (response.status) {
+                toastr["success"](response.msg);
+                window.setTimeout(function () {
+                    window.location = response.url;
+                }, 2000);
+            } else {
+                toastr["error"](response.msg);
+            }
+        }
+
+    });
+    
+    
+
+})

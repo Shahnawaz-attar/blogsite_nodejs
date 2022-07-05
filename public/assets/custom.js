@@ -16,7 +16,6 @@ $('.checklogin_form').on('submit', function (e) {
         }
         ,
         success: function (data) {
-            console.log(data)
             if (data.success == "fail") {
                 $.each(data.errors, (index, value) => {
                     $.each(value, (index, value) => {
