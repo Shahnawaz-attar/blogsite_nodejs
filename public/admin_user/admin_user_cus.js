@@ -96,7 +96,6 @@ $(function () {
 
 
 
-
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-success',
@@ -117,11 +116,11 @@ $(function () {
             if (result.value) {
                 $.ajax({
                     url: $(".upload_data").attr('action'),
-                    type: 'post',
-
+                    type: "POST",
                     data: formData,
                     contentType: false,
                     processData: false,
+                    dataType: 'json',
                     success: function (response) {
                         if (response.status) {
                             toastr["success"](response.msg);

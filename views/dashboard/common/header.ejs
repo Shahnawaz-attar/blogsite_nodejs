@@ -158,7 +158,7 @@
               class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="/dashboard/assets/img/user.png"
                 class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
             <div class="dropdown-menu dropdown-menu-right pullDown">
-              <div class="dropdown-title">Hello <%- username%></div>
+              <div class="dropdown-title">Hello <%- role %></div>
               <a href="profile.html" class="dropdown-item has-icon"> <i class="far
 										fa-user"></i> Profile
               </a> <a href="timeline.html" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
@@ -173,21 +173,23 @@
             </div>
           </li>
         </ul>
+
+        
       </nav>
       <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
-            <a href="/<%- url_usename%>"> <img alt="image" src="/dashboard/assets/img/logo.png" class="header-logo" /> <span
-                class="logo-name"><%- url_usename%></span>
+            <a href="/<%- role %>"> <img alt="image" src="/dashboard/assets/img/logo.png" class="header-logo" /> <span
+                class="logo-name">admin</span>
             </a>
           </div>
           <ul class="sidebar-menu">
             <li class="menu-header">Main</li>
             <li class="dropdown">
-              <a href="/<%- url_usename%>" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
+              <a href="/<%- role %>" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
             </li>
             <li class="dropdown ">
-              <a href="/<%- url_usename%>/create-post" class="nav-link"><i data-feather="camera"></i><span>Post</span></a>
+              <a href="/<%- role %>/create-post" class="nav-link"><i data-feather="camera"></i><span>Post</span></a>
             </li>
             <!-- <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i

@@ -4,8 +4,7 @@ const cors = require('cors')
 const path = require('path')
 var session = require('express-session');
 var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+
 // require('dotenv').config();
 //db connect
 require('./App/db');
@@ -23,13 +22,16 @@ require('./App/db');
   
 
 // app use
-app.use(cors());
+// app.use(cors());
 app.use('/', express.static(__dirname + '/public'))
 
 
 //set 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 
 // set routes

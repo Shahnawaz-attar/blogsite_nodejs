@@ -3,7 +3,6 @@
 
 module.exports = (app) => {
 
-    require('../controllers/common.controller')(app)
     let redirectLogin =  require('../middleware/auth_admin');
     let post_controller = require('../controllers/post.controller')
 
@@ -20,7 +19,6 @@ module.exports = (app) => {
         
     });
     app.post('/admin/save_post',post_controller.save_post);
-       
        
       
    
