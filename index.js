@@ -5,13 +5,12 @@ const path = require('path')
 var session = require('express-session');
 var bodyParser = require('body-parser');
 const moment = require('moment');
-const connect_mongo = require('connect-mongo');
 const MongoStore = require('connect-mongo');
 app.use((req, res, next) => {
     res.locals.moment = moment;
     next();
 });
-
+const ObjectId = require('mongoose').Types.ObjectId;
 // require('dotenv').config();
 //db connect
 require('./App/db');
@@ -30,9 +29,6 @@ require('./App/db');
 
 
 
-
-        
-        
     }));
 
     app.use((req, res, next) => {
@@ -41,6 +37,13 @@ require('./App/db');
         if (app.locals.url_params != '') {
           app.locals.role = app.locals.url_params;
         } 
+        if(req.session.role !=undefined && req.session.role !=''){
+            app.locals.is_login = req.session.role;
+        }else{
+            app.locals.is_login = undefined;
+        }
+        
+
         next();
       }
       );

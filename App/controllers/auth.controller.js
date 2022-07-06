@@ -33,8 +33,6 @@ exports.check_admin = (req,res)=>{
                 req.session.role = data.role;
 
            
-         
-
                 res.send({success:'success',data:data,url:'/admin' , msg : "Welcom '"+data.username+"'"})
             }else{
                 res.send({success:'not_found' , msg : "user not found"})
@@ -65,9 +63,7 @@ exports.validator = {
 exports.logout = (req,res)=>{
 
     req.session.destroy();
-    // delete req.app.locals.adminId;
-    // delete req.app.locals.username;
-    // delete req.app.locals.role;
+    delete app.locals.role
 
     res.redirect('/login')
 }

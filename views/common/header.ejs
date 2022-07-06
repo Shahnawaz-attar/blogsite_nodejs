@@ -43,7 +43,7 @@
 								</a>
 							</div>						
 						</div>
-						<div class="col-md-6 col-sm-12">
+						<div class="col-md-5 col-sm-12">
 							<form class="search" autocomplete="off">
 								<div class="form-group">
 									<div class="input-group">
@@ -56,10 +56,12 @@
 
 							</form>								
 						</div>
-						<div class="col-md-3 col-sm-12 text-right">
+						<div class="col-md-4 col-sm-12 text-right">
 							<ul class="nav-icons">
 								<li><a href="/register"><i class="ion-person-add"></i><div>Register</div></a></li>
-								<li><a href="/login"><i class="ion-person"></i><div>Login</div></a></li>
+								<li><a href="<%= is_login!= undefined ? is_login:'/login'%>"><i class="ion-person"></i><div>
+									<%= is_login!= undefined ? 'Dashboard':'Login'%>
+								</div></a></li>
 							</ul>
 						</div>
 					</div>

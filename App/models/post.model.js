@@ -37,8 +37,37 @@ const delete_post = async (id)=>{
 
 }
 
+const update_post = async (post) =>{
+
+    if(post.coverImg){
+        const old_post = await get_post(post.id);
+        if(old_post){
+            const img_name =old_post.coverImg;
+            const img_path = path.join(__dirname, '../../public/uploads/',img_name);
+
+            fs.unlink(img_path,(err)=>{
+                if(err){
+                    console.log(err);
+                }
+            })
+        }
+
+    }
+
+    return await post_schema.findByIdAndUpdate(post.id,post);
+
+
+}
+
+const get_post = async (id)=>{
+    const post = await post_schema.findById(id)
+    return post ;
+}
+
 module.exports = {
     create_post,
     get_posts,
-    delete_post
+    delete_post,
+    get_post,
+    update_post
 }
