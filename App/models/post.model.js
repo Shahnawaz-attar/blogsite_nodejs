@@ -65,7 +65,7 @@ const get_post = async (id)=>{
 }
 
 const get_all_post = async ()=>{
-    const get_all_post = await post_schema.find({isActive:1 }).sort({_id:-1});
+    const get_all_post = await post_schema.find({isActive:1 }).sort({_id:-1}).limit(30);
     return get_all_post;
 }
 

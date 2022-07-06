@@ -4,9 +4,10 @@ const upload_file  = require('../middleware/upload_files')
 
 exports.save_banner = (req,res)=>{
 
-   const upload_file_name =  upload_file.upload.single('img');
+    let upload_file_name =  upload_file.upload.single('img');
    upload_file_name(req,res,(err)=>{
         if(err){
+            console.log(err);
         }else{
             if(req.body.id){
                 let update_data = {

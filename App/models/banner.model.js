@@ -28,19 +28,20 @@ const get_banner = async (id)=>{
 
 const delete_banner = async (id)=>{
     const post = await get_banner(id);
-    if(post){
+    if(post !=null){
         const img_name = post.coverImg;
         const img_path = path.join(__dirname,'../../public/uploads',img_name);
-        fs.unlink(img_path,(err)=>{
-            if (err) throw err
-        })
+        if(img_path !='' && fs.existsSync(img_path)){
+            fs.unlink(img_path,(err)=>{
+                if (err) throw err
+            })
+        }
     }
-
-    return await banner_schema.findByIdAndDelete({_id:ObjectId(id)})
+    return await banner_schema.deleteOne({_id:ObjectId(id)})
 }
 
 const update_post = async (post)=>{
-    if(post.coverImg){
+    if(post.coverImg !=null && post.coverImg !=''){
         const old_post = await get_banner(post.id);
         if(old_post){
             const img_name =old_post.coverImg;
