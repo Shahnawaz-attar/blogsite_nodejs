@@ -1,13 +1,11 @@
 module.exports = (app) => {
 
 
-
+    const homeController = require('../controllers/home.controller')
 
 
     // website routes
-    app.get('/', (req,res) => {
-        res.render('index')
-    });
+    app.get('/', homeController.getHome);
 
 
     app.get('/login',(req,res) =>{

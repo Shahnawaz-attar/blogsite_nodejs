@@ -39,6 +39,7 @@ require('./App/db');
         } 
         if(req.session.role !=undefined && req.session.role !=''){
             app.locals.is_login = req.session.role;
+            app.locals.username = req.session.username;
         }else{
             app.locals.is_login = undefined;
         }

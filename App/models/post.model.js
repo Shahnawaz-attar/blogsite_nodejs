@@ -64,10 +64,16 @@ const get_post = async (id)=>{
     return post ;
 }
 
+const get_all_post = async ()=>{
+    const get_all_post = await post_schema.find({isActive:1 }).sort({_id:-1});
+    return get_all_post;
+}
+
 module.exports = {
     create_post,
     get_posts,
     delete_post,
     get_post,
-    update_post
+    update_post,
+    get_all_post
 }

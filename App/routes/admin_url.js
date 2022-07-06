@@ -5,6 +5,7 @@ module.exports = (app) => {
 
     let redirectLogin =  require('../middleware/auth_admin');
     let post_controller = require('../controllers/post.controller')
+    let banner_controller = require('../controllers/banner.controller')
 
 
     app.get('/admin',redirectLogin,(_,res)=>{
@@ -29,7 +30,18 @@ module.exports = (app) => {
        
       
    
+    // banner
 
+    app.get('/admin/banner',redirectLogin,(_,res)=>{
 
+        res.render('dashboard/banner/create-banner',{post:null});
+       
+    });
+    app.post('/admin/save_banner',banner_controller.save_banner);
+    
+    app.get('/admin/banner_list',redirectLogin,banner_controller.get_banners);
+
+    app.get('/admin/banner_edit/:id',redirectLogin,banner_controller.get_banner);
+    app.get('/admin/banner_delete/:id',banner_controller.delete_banner);
 
 }
