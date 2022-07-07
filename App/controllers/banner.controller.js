@@ -15,7 +15,9 @@ exports.save_banner = (req,res)=>{
                     description: req.body.description,
                     };
                     update_data.id = req.body.id
-                    update_data.coverImg = req.file ? req.file.filename : null;
+                    if(req.file != null){
+                        update_data.coverImg = req.file.filename;
+                    }
                     let result = banner_model.update_post(update_data);
                     result.then(data => {
                     

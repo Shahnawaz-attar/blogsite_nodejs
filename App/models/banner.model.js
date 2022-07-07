@@ -28,12 +28,14 @@ const get_banner = async (id)=>{
 
 const delete_banner = async (id)=>{
     const post = await get_banner(id);
-    if(post !=null){
+    if(post && post.coverImg !=null && post.coverImg !=''){
         const img_name = post.coverImg;
-        const img_path = path.join(__dirname,'../../public/uploads',img_name);
-        if(img_path !='' && fs.existsSync(img_path)){
+        const img_path = path.join(__dirname,'../../public/uploads/',img_name);
+        if(img_path !='' && img_name!=null && fs.existsSync(img_path)){
             fs.unlink(img_path,(err)=>{
-                if (err) throw err
+                if(err){
+                    console.log(err);
+                }
             })
         }
     }
