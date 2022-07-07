@@ -62,6 +62,11 @@ const update_post = async (post)=>{
 
 }
 
+const get_all_banners= async ()=>{
+    const get_all_banners = await  banner_schema.find({isActive:1}).sort({_id:-1}).limit(4);
+    return get_all_banners;
+}
+
 
 
 module.exports = {
@@ -69,5 +74,6 @@ module.exports = {
     get_banners,
     get_banner,
     delete_banner,
-    update_post
+    update_post,
+    get_all_banners
 }
