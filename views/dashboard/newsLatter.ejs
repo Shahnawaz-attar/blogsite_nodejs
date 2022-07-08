@@ -1,0 +1,63 @@
+<%- include('./common/header.ejs') %>
+
+
+
+<div class="main-content">
+    <section class="section">
+        <div class="section-body">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="panel-title">All NewsLatter</h4>
+
+                        </div>
+                       
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="table-1">
+                                    <thead>
+
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Email</th>
+                                            <th>Option</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        <% k=0; %>
+                                        <% data.forEach(function(item){  %>
+                                            <tr>
+                                                <td><%= ++k; %></td>
+                                                <td><%= item.email %></td>
+                                                <td>
+                                                    <a href="/<%- role %>/newslatter_delete/<%= item._id %>" class="btn btn-outline-danger btn-sm deleteuni"><i class="fa fa-trash"></i></a>
+
+                                                </td>
+                                            </tr>
+
+
+                                       <% }) %>   
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+
+    <%- include('./common/footer.ejs') %>

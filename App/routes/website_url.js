@@ -19,4 +19,7 @@ module.exports = (app) => {
     })
     app.get('/post_detail/:id',homeController.get_post_detail)
 
+
+    app.post('/save_newslatter',homeController.save_newslatter)
+
 }

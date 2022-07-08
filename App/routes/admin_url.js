@@ -43,11 +43,18 @@ module.exports = (app) => {
     app.get('/admin/banner_list',redirectLogin,banner_controller.get_banners);
 
     app.get('/admin/banner_edit/:id',redirectLogin,banner_controller.get_banner);
-    app.get('/admin/banner_delete/:id',banner_controller.delete_banner);
+    app.get('/admin/banner_delete/:id',redirectLogin,banner_controller.delete_banner);
 
 
     // profile
-    app.get('/admin/profile/:id',admin_controller.get_user_info);
+    app.get('/admin/profile/:id',redirectLogin,admin_controller.get_user_info);
     app.post('/admin/update_profile',admin_controller.update_user_info);
+
+
+    // newslatter
+
+    app.get('/admin/newslatter',redirectLogin,admin_controller.get_newslatter);
+
+    app.get('/admin/newslatter_delete/:id',admin_controller.newslatter_delete)
 
 }

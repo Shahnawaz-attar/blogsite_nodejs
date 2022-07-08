@@ -3,6 +3,7 @@ let app = express();
 let path = require("path");
 const post_model = require('../models/post.model');
 const banner_model = require('../models/banner.model')
+const admin_model  = require('../models/admin.model')
 
 exports.getHome = ((req,resp)=>{
 
@@ -32,4 +33,19 @@ exports.get_post_detail = (req,resp)=>{
     )
 
    
+}
+exports.save_newslatter = (req,res)=>{
+    let result = admin_model.save_newslatter(req.body);
+    result.then(data => {
+                
+        if (data != null) {
+            res.send({ status: true ,msg: 'Thank you for subscribing' })
+        } else {
+            res.send({ status: false,  msg: 'fail to subscribing' })
+        }
+    }).catch(err => {
+        res.send({ status: true, msg: 'something went wrong' })
+    })
+
+
 }

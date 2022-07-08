@@ -43,3 +43,79 @@ $('.checklogin_form').on('submit', function (e) {
 
 });
 
+$('.newsletter').on('submit',(e)=>{
+    e.preventDefault();
+    let email =  $('.newsletter').find('[name="email"]').val();
+    $this = $('.newsletter');
+    newsletter = {
+        start: function() {
+            $this.find(".icon").addClass("spin");
+            $this.find(".icon i").removeClass("ion-ios-email-outline");
+            $this.find(".icon i").addClass("ion-load-b");
+            $this.find(".icon h1").html("Please wait ...");
+            $this.find(".btn").attr("disabled", true);
+            $this.find(".email").attr("disabled", true);
+        },
+        end: function() {
+            $this.find(".icon").removeClass("spin");
+            $this.find(".icon").addClass("success");
+            $this.find(".icon i").addClass("ion-checkmark");
+            $this.find(".icon i").removeClass("ion-load-b");
+            $this.find(".icon h1").html("Thank you!");
+            $this.find(".email").val("");				
+            $this.find(".btn").attr("disabled", false);
+            $this.find(".email").attr("disabled", false);
+        
+        },
+    }
+
+    $.ajax({
+        url: '/save_newslatter',
+        type: "POST",
+        data: {email:email},
+        dataType: 'json',
+        beforeSend: function () {
+            
+                newsletter.start();
+       
+        }
+        ,
+        success: function (data) {
+            if (data.status) {
+                
+            
+            setTimeout(function(){
+                newsletter.end();
+            }   , 1000);
+
+            setTimeout(()=>{
+                $.toast({
+                    text: "Thanks for subscribing!",
+                    position: 'bottom-right',
+                    bgcolor: '#E01A31',
+                    icon: 'success',
+                    heading: 'Newsletter',
+                    loader: false
+                },2000);
+            })
+
+
+        }else{
+            $.toast({
+                text: "Failed, network error. Please try again!",
+                position: 'bottom-right',
+                icon: 'error',
+                heading: 'Newsletter',
+                loader: false
+            });
+
+           
+        }
+    }
+       
+
+
+})
+});
+
+

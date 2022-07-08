@@ -1,5 +1,6 @@
 const auth_model = require('../models/auth.model');
 const upload_files = require('../middleware/upload_files');
+const admin_model  = require('../models/admin.model')
 
 exports.get_user_info = ((req,resp)=>{
     let result = auth_model.getUserById(req.params.id);
@@ -48,4 +49,27 @@ exports.update_user_info = ((req,res)=>{
     
 
 });
+
+exports.get_newslatter = (req,res)=>{
+
+    let get_newslatter = admin_model.get_newslatter()
+    get_newslatter.then(data=>{
+        res.render('dashboard/newsLatter',{data:data})
+    })
+
+}
+
+exports.newslatter_delete = (req,res)=>{
+    admin_model.delete_newslatter(req.params.id).then(post=>{
+        if (post != null) {
+            res.send({ status: true, url: '/admin/newslatter', msg: 'successfully Delete' })
+        } else {
+            res.send({ status: false, url: '/admin/newslatter', msg: 'fail to Delete' })
+        }
+    }).catch(err=>{
+        res.send({ status: true, url: '/admin/newslatter', msg: err })
+    })
+    
+
+}
 
