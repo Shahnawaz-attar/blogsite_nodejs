@@ -17,5 +17,6 @@ module.exports = (app) => {
 
         res.render('register');
     })
+    app.get('/post_detail/:id',homeController.get_post_detail)
 
 }

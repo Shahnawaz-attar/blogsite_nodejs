@@ -40,8 +40,10 @@ require('./App/db');
         if(req.session.role !=undefined && req.session.role !=''){
             app.locals.is_login = req.session.role;
             app.locals.username = req.session.username;
+            app.locals.userId   = req.session.adminId
         }else{
             app.locals.is_login = undefined;
+            app.locals.username = 'Admin';
         }
         
 

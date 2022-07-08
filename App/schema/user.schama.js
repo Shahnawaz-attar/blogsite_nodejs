@@ -19,6 +19,9 @@ let userSchema = new Schema(
         role: {
             type: String,
         },
+        coverImg:{
+            type: String,
+        },
         isActive: {
             type: Number,
             default: 0

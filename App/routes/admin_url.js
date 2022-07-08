@@ -6,6 +6,7 @@ module.exports = (app) => {
     let redirectLogin =  require('../middleware/auth_admin');
     let post_controller = require('../controllers/post.controller')
     let banner_controller = require('../controllers/banner.controller')
+    let admin_controller  = require('../controllers/admin.contoller')
 
 
     app.get('/admin',redirectLogin,(_,res)=>{
@@ -43,5 +44,10 @@ module.exports = (app) => {
 
     app.get('/admin/banner_edit/:id',redirectLogin,banner_controller.get_banner);
     app.get('/admin/banner_delete/:id',banner_controller.delete_banner);
+
+
+    // profile
+    app.get('/admin/profile/:id',admin_controller.get_user_info);
+    app.post('/admin/update_profile',admin_controller.update_user_info);
 
 }

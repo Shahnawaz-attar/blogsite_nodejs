@@ -1,0 +1,172 @@
+
+
+<%- include('./common/header.ejs') %>
+
+
+		<section class="single">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 sidebar" id="sidebar">
+
+						<aside>
+							<h1 class="aside-title">Recent Post</h1>
+							<div class="aside-body">
+								<article class="article-fw">
+									<div class="inner">
+										<figure>
+											<a href="single.html">												
+												<img src="images/news/img16.jpg">
+											</a>
+										</figure>
+										<div class="details">
+											<h1><a href="single.html">Lorem Ipsum Dolor Sit Amet Consectetur Adipisicing Elit</a></h1>
+											<p>
+											Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+											tempor incididunt ut labore et dolore magna aliqua.
+											</p>
+											<div class="detail">
+												<div class="time">December 26, 2016</div>
+												<div class="category"><a href="category.html">Lifestyle</a></div>
+											</div>
+										</div>
+									</div>
+								</article>
+								<div class="line"></div>
+								<article class="article-mini">
+									<div class="inner">
+										<figure>
+											<a href="single.html">
+												<img src="images/news/img05.jpg">
+											</a>
+										</figure>
+										<div class="padding">
+											<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
+											<div class="detail">
+												<div class="category"><a href="category.html">Lifestyle</a></div>
+												<div class="time">December 22, 2016</div>
+											</div>
+										</div>
+									</div>
+								</article>
+								<article class="article-mini">
+									<div class="inner">
+										<figure>
+											<a href="single.html">
+												<img src="images/news/img02.jpg">
+											</a>
+										</figure>
+										<div class="padding">
+											<h1><a href="single.html">Fusce ullamcorper elit at felis cursus suscipit</a></h1>
+											<div class="detail">
+												<div class="category"><a href="category.html">Travel</a></div>
+												<div class="time">December 21, 2016</div>
+											</div>
+										</div>
+									</div>
+								</article>
+								<article class="article-mini">
+									<div class="inner">
+										<figure>
+											<a href="single.html">
+												<img src="images/news/img13.jpg">
+											</a>
+										</figure>
+										<div class="padding">
+											<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
+											<div class="detail">
+												<div class="category"><a href="category.html">International</a></div>
+												<div class="time">December 20, 2016</div>
+											</div>
+										</div>
+									</div>
+								</article>
+							</div>
+						</aside>
+						<aside>
+							<div class="aside-body">
+								<form class="newsletter">
+									<div class="icon">
+										<i class="ion-ios-email-outline"></i>
+										<h1>Newsletter</h1>
+									</div>
+									<div class="input-group">
+										<input type="email" class="form-control email" placeholder="Your mail">
+										<div class="input-group-btn">
+											<button class="btn btn-primary"><i class="ion-paper-airplane"></i></button>
+										</div>
+									</div>
+									<p>By subscribing you will receive new articles in your email.</p>
+								</form>
+							</div>
+						</aside>
+					</div>
+					<div class="col-md-8">
+						<!-- <ol class="breadcrumb">
+						  <li><a href="javascript:void(0)">Home</a></li>
+						  <li class="active">Film</li>
+						</ol> -->
+						<article class="article main-article">
+							<header>
+								<h1><%= post.title%></h1>
+								<ul class="details">
+									<li>Posted on <%= moment( post.created_at).format('MMMM Do YYYY') %></li>
+									
+									<li>By <a href="javascript:void(0)"><%= username%></a></li>
+								</ul>
+							</header>
+							<div class="main">
+								<p><%= post.description%></p>
+								<div class="featured">
+									<figure>
+										<img src="/uploads/<%= post.coverImg%>">
+										<figcaption>Image by pexels.com</figcaption>
+									</figure>
+								</div>
+
+				
+							</div>
+			
+						</article>
+						<div class="sharing">
+						<div class="title"><i class="ion-android-share-alt"></i> Sharing is caring</div>
+							<ul class="social">
+								<li>
+									<a href="javascript:void(0)" class="facebook">
+										<i class="ion-social-facebook"></i> Facebook
+									</a>
+								</li>
+								<li>
+									<a href="javascript:void(0)" class="twitter">
+										<i class="ion-social-twitter"></i> Twitter
+									</a>
+								</li>
+								<li>
+									<a href="javascript:void(0)" class="googleplus">
+										<i class="ion-social-googleplus"></i> Google+
+									</a>
+								</li>
+								<li>
+									<a href="javascript:void(0)" class="linkedin">
+										<i class="ion-social-linkedin"></i> Linkedin
+									</a>
+								</li>
+								<li>
+									<a href="javascript:void(0)" class="skype">
+										<i class="ion-ios-email-outline"></i> Email
+									</a>
+								</li>
+								<li class="count">
+									20
+									<div>Shares</div>
+								</li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+
+        <%- include('./common/footer.ejs') %>
+
+	

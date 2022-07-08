@@ -38,8 +38,9 @@
                                                     <td>
                                                         <img src="/uploads/<%= item.coverImg %>" alt="" height="50" width="50">
                                                     </td>
-                                                    <td><%= item.title %></td>
-                                                    <td><%= item.description %></td>
+                                                    <td><%= item.title.substring(0,10) + '....' %></td>
+                                                    <!-- add substring then 3 dots like ... -->
+                                                    <td><%= item.description.substring(0,50) + '....' %></td>
                                                     <!-- formate date jul 5 2022 -->
                                                     <td><%= moment(item.created_at).format('MMMM Do YYYY') %></td>
                                                     <td>
