@@ -8,16 +8,16 @@
                     <div class="col-12 col-md-12 col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="panel-title">Add Post</h4>
+                                <h4 class="panel-title">Add Video</h4>
                                 <div class="ml-auto">
-                                    <a href="/<%- role %>/post_list" class="btn btn-primary "><i class="fa fa-list"></i>
+                                    <a href="/<%- role %>/video_list" class="btn btn-primary "><i class="fa fa-list"></i>
                                         list</a>
                                 </div>
                             </div>
 
                             <div class="card-body">
 
-                                <form class="upload_data" action="/<%- role %>/save_post" method="POST">
+                                <form id="Formvideo" action="/<%- role %>/save_video" method="POST">
 
 
                                     <div class="form row mx-auto">
@@ -44,36 +44,12 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="control-label">Image <span
+                                                <label class="control-label">Video Link <span
                                                         class="required">*</span></label>
-                                                <div class="custom-file">
-                                                    <input type="file" name="img" accept=".png, .jpeg , .jpg, .svg"
-                                                        value="" class="custom-file-input" id="Multifileupload">
-                                                    <label class="custom-file-label " for="customFile">Choose
-                                                        file</label>
+                                                <input type="text" class="form-control" name="link"
+                                                    value="<%- post!=undefined? post.link : '' %>" />
 
-                                                </div>
                                             </div>
-                                            <div id="MultidvPreview"></div>
-                                            <% if(post!=undefined){ %>
-                                                <img src="/uploads/<%- post!=undefined? post.coverImg : '' %>" alt=""
-                                                    height="50" width="50">
-                                                <% }%>
-
-
-                                                    <div class="form-group my-5">
-                                                        <label class="control-label">Post Type <span
-                                                                class="required">*</span></label>
-                                                        <select class="form-control" name="postType">
-                                                            <option value=""  >Select Post Type</option>
-                                                            <!-- if post.postType == popular -->
-                                                            <option value="popular" <%- post!=undefined? post.postType == 'popular' ? 'selected' : '' : '' %> >Popular</option>
-                                                            <option value="botw" 
-                                                            <%- post!=undefined? post.postType == 'botw' ? 'selected' : '' : '' %>
-                                                            >BEST OF THE WEEK</option>
-    
-                                                        </select>
-                                                    </div>
                                         </div>
 
 

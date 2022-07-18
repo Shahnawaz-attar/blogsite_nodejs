@@ -1,0 +1,71 @@
+<%- include('../common/header.ejs') %>
+    <!-- Main Content -->
+    <div class="main-content">
+        <section class="section">
+            <div class="section-body">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-lg-12">
+                        <div class="card">
+                            
+                            <div class="card-header">
+                                <h4 class="panel-title">Add Video</h4>
+                                <div class="ml-auto">
+                                    <a href="/<%- role %>/videos" class="btn btn-primary "><i class="fa fa-plus"></i>
+                                        add</a>
+                                </div>
+                            </div>
+                           
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="table-1">
+                                        <thead>
+
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Title</th>
+                                                <th>Description </th>
+                                                <th>Video</th>
+                                                <th>Date</th>
+                                                <th>Option </th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            <% k=0; %>
+
+                                            <% videos.forEach(function(item){  %>
+                                            <tr>
+                                                <td><%= ++k %></td>
+                                                <td><%= item.title %></td>
+                                                <td><%= item.description %></td>
+                                                <td>
+                                                    <iframe width="280" height="150" src="<%= item.link %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+                                                </td>
+                                                <td><%= moment(item.createdAt).format('MMMM Do YYYY') %></td>
+                                                <td>
+                                                    <a href="/<%- role %>/video_edit/<%= item._id %>" class="btn btn-outline-primary  btn-sm"><i class="fa fa-edit"></i></a>
+                                                    <a href="/<%- role %>/video_delete/<%= item._id %>" class="btn btn-outline-danger btn-sm deleteuni"><i class="fa fa-trash"></i></a>
+                                                </td>
+
+                                            </tr>
+
+
+                                            <% }); %> 
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+    <%- include('../common/footer.ejs') %>

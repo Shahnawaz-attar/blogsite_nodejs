@@ -4,14 +4,18 @@ let path = require("path");
 const post_model = require('../models/post.model');
 const banner_model = require('../models/banner.model')
 const admin_model  = require('../models/admin.model')
+const videoModel = require('../models/video.model');
 
 exports.getHome = ((req,resp)=>{
 
     let all_post = post_model.get_all_post();
     let banners = banner_model.get_all_banners();
-    Promise.all([all_post, banners]).then((result)=>{
+    let bestOftheWeek = post_model.bestOftheWeek();
+    let videos  =  videoModel.get_all_videos(); 
+    let popular = post_model.popular();
+    Promise.all([all_post, banners,bestOftheWeek , popular , videos]).then((result)=>{
 
-        resp.render('index',{data:result[0],banners:result[1]})
+        resp.render('index',{data:result[0],banners:result[1] ,bestOftheWeek:result[2] ,popular:result[3] ,videos:result[4]})
     }).catch(err=>{
         resp.send(err);
     }

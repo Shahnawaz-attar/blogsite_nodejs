@@ -14,6 +14,9 @@ let postschema = new schema(
         coverImg : {
             type : String
         },
+        postType : {
+            type : String
+        },
         isActive:{
             type:Number,
             default:1

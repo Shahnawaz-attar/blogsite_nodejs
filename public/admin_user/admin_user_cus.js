@@ -167,3 +167,59 @@ $('.deleteuni').on('click', function (e) {
     
 
 })
+
+
+// upload video by form serialize
+$(function () {
+    $("#Formvideo").on('submit', function (e) {
+        e.preventDefault();
+
+        var formSerialize = $("#Formvideo").serialize();
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger mr-2'
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Submit it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: $("#Formvideo").attr('action'),
+                    type: 'post',
+                    data: formSerialize,
+                    success: function (response) {
+                        
+                        if (response.status) {
+                            toastr["success"](response.msg);
+                            $("#Formvideo")[0].reset();
+
+                            window.setTimeout(function () {
+                                window.location = response.url;
+                            }, 2000);
+                        } else {
+                            alert()
+                            toastr["error"](response.msg);
+
+                        }
+
+                    }
+                });
+            }
+
+        });
+
+    }
+    );
+}
+);

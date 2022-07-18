@@ -41,7 +41,7 @@ const update_post = async (post) =>{
 
     if(post.coverImg){
         const old_post = await get_post(post.id);
-        if(old_post){
+        if(old_post && old_post.coverImg !='' && old_post.coverImg != null){
             const img_name =old_post.coverImg;
             const img_path = path.join(__dirname, '../../public/uploads/',img_name);
 
@@ -69,11 +69,23 @@ const get_all_post = async ()=>{
     return get_all_post;
 }
 
+const bestOftheWeek= async ()=>{
+    const get_all_banners = await  post_schema.find({isActive:1,postType:'botw'}).sort({_id:-1}).limit(4);
+    return get_all_banners;
+}
+
+const popular= async ()=>{
+    const get_all_banners = await  post_schema.find({isActive:1,postType:'popular'}).sort({_id:-1}).limit(4);
+    return get_all_banners;
+}
+
 module.exports = {
     create_post,
     get_posts,
     delete_post,
     get_post,
     update_post,
-    get_all_post
+    get_all_post,
+    bestOftheWeek,
+    popular
 }

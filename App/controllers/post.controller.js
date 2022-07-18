@@ -15,9 +15,13 @@ exports.save_post =  (req, res) => {
                 let update_data = {
                 title: req.body.title,
                 description: req.body.description,
+                postType : req.body.postType,
                 };
                 update_data.id = req.body.id
-                update_data.coverImg = req.file ? req.file.filename : null;
+                if (req.file) {
+                    update_data.coverImg = req.file.filename;
+                }
+            
                 let result = post_model.update_post(update_data);
                 result.then(data => {
                 
@@ -39,7 +43,8 @@ exports.save_post =  (req, res) => {
             let post_data = {
                 title: req.body.title,
                 description: req.body.description,
-                coverImg: req.file.filename
+                coverImg: req.file.filename,
+                postType : req.body.postType,
             }
             let result = post_model.create_post(post_data);
 

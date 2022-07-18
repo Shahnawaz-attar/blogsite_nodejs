@@ -7,6 +7,7 @@ module.exports = (app) => {
     let post_controller = require('../controllers/post.controller')
     let banner_controller = require('../controllers/banner.controller')
     let admin_controller  = require('../controllers/admin.contoller')
+    let videos_controller = require('../controllers/videos.controller')
 
 
     app.get('/admin',redirectLogin,(_,res)=>{
@@ -56,5 +57,23 @@ module.exports = (app) => {
     app.get('/admin/newslatter',redirectLogin,admin_controller.get_newslatter);
 
     app.get('/admin/newslatter_delete/:id',admin_controller.newslatter_delete)
+
+
+    //videos
+    app.get('/admin/videos',redirectLogin, videos_controller.create_video);
+
+    //save_video
+    app.post('/admin/save_video',videos_controller.save_video);
+
+    app.get('/admin/video_list',redirectLogin,videos_controller.video_list);
+
+    //video_delete
+    app.get('/admin/video_delete/:id',redirectLogin,videos_controller.video_delete);
+
+    // video_edit
+    app.get('/admin/video_edit/:id',redirectLogin,videos_controller.get_video);
+
+
+    
 
 }
