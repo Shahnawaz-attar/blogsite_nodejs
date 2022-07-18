@@ -27,6 +27,9 @@ $('.checklogin_form').on('submit', function (e) {
             if (data.success == "not_found") {
                 $('.checklogin_form').find('.cust-error-show').removeAttr('hidden').html(data.msg).fadeIn().delay(3000).fadeOut();
             }
+            if (data.success == "already_exist") {
+                $('.checklogin_form').find('.cust-error-show').removeAttr('hidden').html(data.msg).fadeIn().delay(3000).fadeOut();
+            }
             if (data.success == "success") {
                 window.location = data.url
             }

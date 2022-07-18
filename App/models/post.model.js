@@ -13,9 +13,20 @@ const create_post = async (post)=>{
 
 }
 
-const get_posts = async ()=>{
+const get_posts = async (user)=>{
     let result = await post_schema.find();
-    return result;
+
+    if(result){
+        if( user == 'admin'){
+            return result;
+        }
+        else
+        {
+            return await post_schema.find({isActive:1,created_by:user});
+            
+        }
+    }
+
 }
 
 const delete_post = async (id)=>{

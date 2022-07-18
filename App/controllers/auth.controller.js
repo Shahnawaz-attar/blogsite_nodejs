@@ -4,7 +4,7 @@ const auth_model = require('../models/auth.model');
 const express = require('express');
 const app = express();
 
-exports.check_admin = (req,res)=>{
+exports.login = (req,res)=>{
 
 
 
@@ -20,12 +20,12 @@ exports.check_admin = (req,res)=>{
         let post ={
             username : req.body.username,
             password : req.body.password,
-            role     : "admin"
+
 
         }
         let result = auth_model.checkUserExist(post);
         result.then(data=>{
-       
+
            
             if(data !=null){
                 req.session.adminId = data._id;
@@ -33,7 +33,7 @@ exports.check_admin = (req,res)=>{
                 req.session.role = data.role;
 
            
-                res.send({success:'success',data:data,url:'/admin' , msg : "Welcom '"+data.username+"'"})
+                res.send({success:'success',data:data,url:'/'+data.role , msg : "Welcom '"+data.username+"'"})
             }else{
                 res.send({success:'not_found' , msg : "user not found"})
             }
@@ -49,11 +49,70 @@ exports.check_admin = (req,res)=>{
     }
 }  
 
+exports.user_regis = (req,res)=>{
+    
+    const errors = validationResult(req)
+
+    if(!errors.isEmpty()){
+        res.send({success:'fail',errors:errors})
+    }else{
+            
+            let post ={
+                username : req.body.username,
+                password : req.body.password,
+                email    : req.body.email,
+                role     : "user"
+    
+            }
+            let result = auth_model.user_regis(post);
+            result.then(data=>{
+                if(data.success == 'fail'){
+                    res.send({success:'already_exist',msg:data.msg})
+                }
+                else{
+                    res.send({success:'success',data:data,url:'/login' , msg : "Welcom '"+data.username+"'"})
+                }
+
+            }
+            ).catch(err=>{
+                console.log(err)
+                res.send({success:'fail',err:err})
+            }
+            )
+
+            
+            
+    }
+    
+
+}
+
+
 
 exports.validator = {
-    check_admin : [
+    login : [
         check('username').not().isEmpty().withMessage('Email/Username is required'),
         check('password').not().isEmpty().withMessage('Password is required')
+    ],
+    check_user_reg : [
+        check('username').not().isEmpty().withMessage('Username is required'),
+        check('email').not().isEmpty().withMessage('email is required'),
+        check('email').isEmail().withMessage('email is not valid'),
+        check('password').not().isEmpty().withMessage('Password is required'),
+        check('password').isLength({min:6}).withMessage('Password must be at least 6 characters long'),
+
+        check('password').custom((value,{req})=>
+        {
+            if(value != req.body.confirm_password)
+            {
+                throw new Error('Password confirmation does not match password');
+            }
+            return true;
+        }
+        )
+
+            
+
     ]
     
 }

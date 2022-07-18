@@ -26,12 +26,12 @@ exports.save_post =  (req, res) => {
                 result.then(data => {
                 
                     if (data != null) {
-                        res.send({ status: true, url: '/admin/post_list', msg: 'Successfully updated' })
+                        res.send({ status: true, url: '/'+req.session.role+'/post_list', msg: 'Successfully updated' })
                     } else {
-                        res.send({ status: false, url: '/admin/create-post', msg: 'fail to updated' })
+                        res.send({ status: false, url: '/'+req.session.role+'/create-post', msg: 'fail to updated' })
                     }
                 }).catch(err => {
-                    res.send({ status: true, url: '/admin/create-post', msg: err })
+                    res.send({ status: false, url: '/'+req.session.role+'/create-post', msg: err })
                 })
 
 
@@ -45,18 +45,20 @@ exports.save_post =  (req, res) => {
                 description: req.body.description,
                 coverImg: req.file.filename,
                 postType : req.body.postType,
+                created_by: req.session.username,
+                role: req.session.role,
             }
             let result = post_model.create_post(post_data);
 
             result.then(data => {
                 
                 if (data != null) {
-                    res.send({ status: true, url: '/admin/post_list', msg: 'successfully created' })
+                    res.send({ status: true, url: '/'+req.session.role+'/post_list', msg: 'successfully created' })
                 } else {
-                    res.send({ status: false, url: '/admin/create-post', msg: 'fail to create' })
+                    res.send({ status: false, url: '/'+req.session.role+'/create-post', msg: 'fail to create' })
                 }
             }).catch(err => {
-                res.send({ status: true, url: '/admin/create-post', msg: err })
+                res.send({ status: false, url: '/'+req.session.role+'/create-post', msg: err })
             })
 
         }
@@ -73,7 +75,7 @@ exports.save_post =  (req, res) => {
 
 exports.get_posts = (req,res)=>{
 
-    let get_posts = post_model.get_posts();
+    let get_posts = post_model.get_posts(req.session.username);
     get_posts.then(post=>{
        
         res.render('dashboard/posts/post_list' , {post:post});
@@ -88,9 +90,9 @@ exports.delete_post = (req,res)=>{
 
     delete_post.then(post=>{
         if (post != null) {
-            res.send({ status: true, url: '/admin/post_list', msg: 'successfully Delete' })
+            res.send({ status: true, url: '/'+req.session.role+'/post_list', msg: 'successfully Delete' })
         } else {
-            res.send({ status: false, url: '/admin/post_list', msg: 'fail to Delete' })
+            res.send({ status: false, url: '/'+req.session.role+'/post_list', msg: 'fail to Delete' })
         }
     })
     

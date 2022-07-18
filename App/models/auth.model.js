@@ -18,7 +18,7 @@ const checkUserExist = async (post) => {
 
         ]
     });
-    if(users !=null && users.role == 'admin'){
+    if(users !=null){
         let match = await bcrypt.compare(post.password, users.password);
         if(match){
             return users;
@@ -61,8 +61,42 @@ const updateUser = async (post)=>{
 
 }
 
+ const user_regis = async (post)=>{
+    let users = await user.findOne({
+        $or: [
+            {
+                username: post.username
+            },
+            {
+                email:post.email
+            }
+
+        ]
+    });
+
+    if(users !=null){
+        if(users.username == post.username){
+            return {success:'fail',msg:'Username already exist'}
+        }else if(users.email == post.email){
+            return {success:'fail',msg:'Email already exist'}
+        }
+    }
+
+    post.password = await bcrypt.hash(post.password,10);
+    let new_user = new user(post);
+    let result = await new_user.save();
+    return result;
+
+
+
+
+
+ }
+
+
 module.exports = {
     checkUserExist,
     getUserById,
-    updateUser
+    updateUser,
+    user_regis
 }
