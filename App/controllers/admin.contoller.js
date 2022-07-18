@@ -1,75 +1,75 @@
 const auth_model = require('../models/auth.model');
 const upload_files = require('../middleware/upload_files');
-const admin_model  = require('../models/admin.model')
+const admin_model = require('../models/admin.model')
 
-exports.get_user_info = ((req,resp)=>{
+exports.get_user_info = ((req, resp) => {
     let result = auth_model.getUserById(req.params.id);
 
-    result.then(user=>{
-        resp.render('dashboard/profile',{user:user})
-    }).catch(err=>{
+    result.then(user => {
+        resp.render('dashboard/profile', { user: user })
+    }).catch(err => {
         console.log(err);
     })
-  
-    
+
+
 
 });
 
-exports.update_user_info = ((req,res)=>{
+exports.update_user_info = ((req, res) => {
 
-    let uploaded_files= upload_files.upload.single('coverImg')
+    let uploaded_files = upload_files.upload.single('coverImg')
 
-    uploaded_files(req,res,(err)=>{
+    uploaded_files(req, res, (err) => {
 
-        if(err) throw err;
+        if (err) throw err;
         let data = {
-            id:req.body.id,
-            username:req.body.username,
-            email:req.body.email,
-           
+            id: req.body.id,
+            username: req.body.username,
+            email: req.body.email,
+
         }
-        if(req.file){
+        if (req.file) {
             data.coverImg = req.file.filename;
         }
-        
+
         let result = auth_model.updateUser(data);
         result.then(data => {
 
-                
+
             if (data != null) {
-                res.send({ status: true, url: '/admin/profile/'+ data.id , msg: 'Update success' });
+                res.send({ status: true, url: '/' + req.session.role + '/profile/' + data.id, msg: 'Update success' });
             } else {
-                res.send({ status: false, url: '/admin/profile/'+ data.id, msg: 'fail to updated' })
+                res.send({ status: false, url: '/' + req.session.role + '/profile/' + data.id, msg: 'fail to updated' })
             }
         }).catch(err => {
-            res.send({ status: false, url: '/admin/profile/'+ data.id, msg: 'Something went wrong', })
+            res.send({ status: false, url: '/' + req.session.role + '/profile/' + data.id, msg: 'Something went wrong', })
         })
 
     })
-    
+
 
 });
 
-exports.get_newslatter = (req,res)=>{
+exports.get_newslatter = (req, res) => {
 
     let get_newslatter = admin_model.get_newslatter()
-    get_newslatter.then(data=>{
-        res.render('dashboard/newsLatter',{data:data})
+    get_newslatter.then(data => {
+        res.render('dashboard/newsLatter', { data: data })
     })
 
 }
 
-exports.newslatter_delete = (req,res)=>{
-    admin_model.delete_newslatter(req.params.id).then(post=>{
+exports.newslatter_delete = (req, res) => {
+    admin_model.delete_newslatter(req.params.id).then(post => {
         if (post != null) {
             res.send({ status: true, url: '/admin/newslatter', msg: 'successfully Delete' })
         } else {
             res.send({ status: false, url: '/admin/newslatter', msg: 'fail to Delete' })
         }
-    }).catch(err=>{
+    }).catch(err => {
         res.send({ status: true, url: '/admin/newslatter', msg: err })
     })
-    
+
 
 }
 

@@ -48,7 +48,7 @@
 											<div class="padding">
 												<div class="detail">
 													<div class="time"><%= moment(post.created_at).format('MMMM Do YYYY') %></div>
-													<div class="category"><a href="category.html"><%= username%></a></div>
+													<div class="category"><a href="category.html"><%= post.created_by %></a></div>
 												</div>
 												<h2><a href="/post_detail/<%= post._id%>"><%= post.title%></a></h2>
 												<p><%= post.description.substring(0,50) + '....' %></p>
@@ -82,7 +82,7 @@
 											<div class="padding">
 												<div class="detail">
 													<div class="time"><%= moment(post.created_at).format('MMMM Do YYYY') %></div>
-													<div class="category"><a href="category.html"><%= username%></a></div>
+													<div class="category"><a href="category.html"><%= post.created_by %></a></div>
 												</div>
 												<h2><a href="/post_detail/<%= post._id%>"><%= post.title%></a></h2>
 												<p><%= post.description.substring(0,50) + '....' %></p>
@@ -255,7 +255,7 @@
 							<div class="padding">
 								<div class="detail">
 										<div class="time">%= moment(post.created_at).format('MMMM Do YYYY') %></div>
-										<div class="category"><a href="category.html"><%= username%></a></div>
+										<div class="category"><a href="category.html"><%= post.created_by %></a></div>
 								</div>
 								<h2><a href="javascript:void(0)"><%= post.title%></a></h2>
 								<p><%= post.description.substring(0,50) + '....' %></p>
