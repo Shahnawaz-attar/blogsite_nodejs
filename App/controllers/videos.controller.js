@@ -11,29 +11,28 @@ exports.save_video = (req,res)=>{
     
 
     if(req.body.id){
-        console.log(req.body)
         let result = videoModel.updateVideo(req.body.id , req.body);
         result.then(data => {
             if (data != null) {
-                res.send({ status: true, url: '/admin/video_list', msg: 'successfully Updated' })
+                res.send({ status: true, url: '/'+req.session.role+'/video_list', msg: 'successfully Updated' })
             } else {
-                res.send({ status: false, url: '/admin/video_list', msg: 'fail to Update' })
+                res.send({ status: false, url: '/'+req.session.role+'/video_list', msg: 'fail to Update' })
             }
         }).catch(err => {
-            res.send({ status: false, url: '/admin/videos', msg: err })
+            res.send({ status: false, url: '/'+req.session.role+'/videos', msg: err })
         })
 
     }else{
-       
+        req.body.createdBy = req.session.username;
         let  result = videoModel.create_video(req.body);
         result.then(data => {
                 if (data != null) {
-                    res.send({ status: true, url: '/admin/video_list', msg: 'successfully created' })
+                    res.send({ status: true, url: '/'+req.session.role+'/video_list', msg: 'successfully created' })
                 } else {
-                    res.send({ status: false, url: '/admin/video_list', msg: 'fail to create' })
+                    res.send({ status: false, url: '/'+req.session.role+'/video_list', msg: 'fail to create' })
                 }
             }).catch(err => {
-                res.send({ status: false, url: '/admin/videos', msg: err })
+                res.send({ status: false, url: '/'+req.session.role+'/videos', msg: err })
             })
     }
 
@@ -41,7 +40,7 @@ exports.save_video = (req,res)=>{
 }
 
 exports.video_list = (req,res)=>{
-    let result = videoModel.get_videos();
+    let result = videoModel.get_videos( req.session.username);
     result.then(data => {
             if (data != null) {
                 
@@ -61,9 +60,9 @@ exports.video_delete = (req,res)=>{
 
     const result =  videoModel.video_delete(req.params.id).then(resp=>{
         if (resp != null) {
-            res.send({ status: true, url: '/admin/video_list', msg: 'successfully Delete' })
+            res.send({ status: true, url: '/'+req.session.role+'/video_list', msg: 'successfully Delete' })
         } else {
-            res.send({ status: false, url: '/admin/video_list', msg: 'fail to Delete' })
+            res.send({ status: false, url: '/'+req.session.role+'/video_list', msg: 'fail to Delete' })
         }
 
     }).catch(err=>{

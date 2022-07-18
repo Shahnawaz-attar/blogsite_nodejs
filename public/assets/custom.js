@@ -122,3 +122,40 @@ $('.newsletter').on('submit',(e)=>{
 });
 
 
+//search
+// $('.search-form').on('submit',(e)=>{
+//     e.preventDefault();
+//     // through GET method
+//     let search =  $('.search-form').find('[name="search"]').val();
+
+//     $.ajax({
+//         url: '/search-result/'+search,
+//         type: "GET",
+//         dataType: 'json',
+
+//         success: function (data) {
+//             console.log(data);
+//             if (data.status) {
+//                 console.log(data.data);
+            
+//             }else{
+//                 $.toast({
+//                     text: "Failed, network error. Please try again!",
+//                     position: 'bottom-right',
+//                     icon: 'error',
+//                     heading: 'Newsletter',
+//                     loader: false
+//                 });
+
+               
+//             }
+//         }
+        
+
+
+//     })
+    
+
+
+
+// });

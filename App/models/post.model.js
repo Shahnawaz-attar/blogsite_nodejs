@@ -75,8 +75,8 @@ const get_post = async (id)=>{
     return post ;
 }
 
-const get_all_post = async ()=>{
-    const get_all_post = await post_schema.find({isActive:1 }).sort({_id:-1}).limit(30);
+const get_all_post = async (limit)=>{
+    const get_all_post = await post_schema.find({isActive:1 }).sort({_id:-1}).limit(limit);
     return get_all_post;
 }
 
@@ -90,6 +90,24 @@ const popular= async ()=>{
     return get_all_banners;
 }
 
+const search = async (search_text)=>{
+    const get_all_post = await post_schema.find(
+        {
+            isActive:1,
+            $or:
+            [
+                {
+                    title:{$regex:search_text,$options:'i'}
+                },
+                {
+                    description:{$regex:search_text,$options:'i'}
+                }
+            ]
+        }).sort({_id:-1});
+
+    return get_all_post;
+}
+
 module.exports = {
     create_post,
     get_posts,
@@ -98,5 +116,6 @@ module.exports = {
     update_post,
     get_all_post,
     bestOftheWeek,
-    popular
+    popular,
+    search
 }

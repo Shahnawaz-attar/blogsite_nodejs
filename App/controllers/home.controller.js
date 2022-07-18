@@ -8,7 +8,7 @@ const videoModel = require('../models/video.model');
 
 exports.getHome = ((req,resp)=>{
 
-    let all_post = post_model.get_all_post();
+    let all_post = post_model.get_all_post(30);
     let banners = banner_model.get_all_banners();
     let bestOftheWeek = post_model.bestOftheWeek();
     let videos  =  videoModel.get_all_videos(); 
@@ -52,4 +52,33 @@ exports.save_newslatter = (req,res)=>{
     })
 
 
+}
+
+//all_posts
+exports.all_posts = (req,res)=>{
+    let result = post_model.get_all_post();
+    result.then((posts)=>{
+        res.render('all_posts',{posts:posts})
+    }
+    ).catch(err=>{
+        res.send(err);
+    }
+    )
+}
+
+
+//search
+exports.search = (req,res)=>{
+    let result = post_model.search(req.query.search);
+    result.then((posts)=>{
+        res.render('searched_posts',{posts:posts})
+    }
+    ).catch(err=>{
+        res.send(err);
+    }
+    )
+    
+
+
+   
 }

@@ -20,6 +20,17 @@ module.exports = (app) => {
     app.get('/post_detail/:id',homeController.get_post_detail)
 
 
-    app.post('/save_newslatter',homeController.save_newslatter)
+    app.post('/save_newslatter',homeController.save_newslatter);
+
+    // all_posts
+    app.get('/all_posts',homeController.all_posts);
+
+    // /search/:search request is get request by form 
+
+    app.get('/:search',homeController.search);
+ 
+
+   
+
 
 }

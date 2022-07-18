@@ -11,9 +11,15 @@ const create_video = (post)=>{
 }
 
 
-const get_videos = ()=>{
+const get_videos = (user)=>{
 
-    return VideoSchema.find({});
+    if(user != 'admin'){
+        return VideoSchema.find({createdBy:user}).sort({isActive:1})
+    }
+    else{
+        return VideoSchema.find({});
+    }
+
 
 }
 

@@ -1,0 +1,63 @@
+
+
+<%- include('./common/header.ejs') %>
+
+<section class="category">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 text-left">
+          <div class="line"></div>
+          <div class="row">
+            <% 
+            if(posts.length  >0){
+            posts.forEach(post=>{  %>
+            <article class="col-md-12 article-list">
+              <div class="inner">
+                <figure>
+                    <a href="/post_detail/<%= post._id%>">
+                      <img src="/uploads/<%= post.coverImg%>">
+                  </a>
+                </figure>
+                <div class="details">
+                  <div class="detail">
+                    <div class="category">
+                     <a href="category.html"><%= post.created_by %></a>
+                    </div>
+                    <div class="time"><%= moment(post.created_at).format('MMMM Do YYYY') %></div>
+                  </div>
+                  <h1><a href="/post_detail/<%= post._id%>"><%= post.title%></a></h1>
+                  <p>
+                    <%= post.description.substring(0,50) + '....' %>
+                  </p>
+                  <footer>
+                    <a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>237</div></a>
+                    <a class="btn btn-primary more" href="/post_detail/<%= post._id%>">
+                      <div>More</div>
+                      <div><i class="ion-ios-arrow-thin-right"></i></div>
+                    </a>
+                  </footer>
+                </div>
+              </div>
+            </article>
+            <% })}else {
+              
+              %>
+              <h1>No posts found</h1>
+              <% } %>
+
+          </div>
+        </div>
+        <div class="col-md-4 sidebar">
+
+
+          <aside>
+            <div class="aside-body">
+                <%- include('./newslatter') %>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('./common/footer.ejs') %>

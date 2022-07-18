@@ -15,7 +15,10 @@ const VideoSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-    }
+    },
+    createdBy: {
+        type:String,
+    },
 },
     {
         collection : 'videos'
