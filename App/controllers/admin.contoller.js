@@ -1,6 +1,8 @@
 const auth_model = require('../models/auth.model');
 const upload_files = require('../middleware/upload_files');
 const admin_model = require('../models/admin.model')
+const gallery_model = require('../models/gallery.model'); 
+
 
 exports.get_user_info = ((req, resp) => {
     let result = auth_model.getUserById(req.params.id);
@@ -73,3 +75,109 @@ exports.newslatter_delete = (req, res) => {
 
 }
 
+
+//create_gallery
+exports.create_gallery = (req, res) => {
+    res.render('dashboard/gallery/create-gallery', { post: null })
+}
+
+// save multiple images with title 
+exports.save_gallery = (req, res) => {
+   
+    let uploaded_files = upload_files.upload.fields([{ name: 'coverImg', maxCount: 1 }, { name: 'images', maxCount: 10 }]);
+
+    
+
+    uploaded_files(req, res, (err) => {
+            
+            if (err) throw err;
+            // resize images upload_files.resizeImage
+            let images = req.files.images;
+            if (images) {
+                images.forEach(image => {
+                    upload_files.resizeImage(image, 255, 150).then(data => {
+                    })
+                }
+                )
+            }
+
+            console.log(req.files.coverImg[0].filename)
+        
+
+
+            let data = {
+                title: req.body.title,
+                coverImg: req.files.coverImg[0].filename,
+                images: req.files.images.map(image => image.filename)
+            }
+            let result = gallery_model.save_gallery(data);
+            result.then(data => {
+                if (data != null) {
+                    res.send({ status: true, url: '/admin/gallery_list', msg: 'successfully created' })
+                } else {
+                    res.send({ status: false, url: '/admin/gallery_list', msg: 'fail to created' })
+                }
+            }
+            ).catch(err => {
+                res.send({ status: false, url: '/admin/gallery_list', msg: 'Something went wrong', })
+            }
+            )
+            
+        })
+
+
+
+}
+
+// get all gallery
+exports.get_all_gallery = (req, res) => {
+    let get_all_gallery = gallery_model.get_all_gallery()
+    get_all_gallery.then(data => {
+        res.render('dashboard/gallery/gallery_list', { posts: data })
+    }).catch(err => {
+        console.log(err)
+    }
+    )
+}
+
+
+//get_gallery
+exports.get_gallery = (req, res) => {
+    let get_gallery = gallery_model.get_gallery(req.params.id)
+    get_gallery.then(data => {
+        res.render('dashboard/gallery/gallery_images', { post: data })
+    }).catch(err => {
+        console.log(err)
+    }
+    )
+}
+
+//gallery_delete
+exports.gallery_delete = (req, res) => {
+    let gallery_delete = gallery_model.gallery_delete(req.params.id)
+    gallery_delete.then(data => {
+        if (data) {
+            res.send({ status: true, url: '/admin/gallery_list', msg: 'successfully Delete' })
+        } else {
+            res.send({ status: false, url: '/admin/gallery_list', msg: 'fail to Delete' })
+        }
+    }).catch(err => {
+        res.send({ status: true, url: '/admin/gallery_list', msg: err })
+    }
+    )
+}
+
+//images_delete
+exports.images_delete = (req, res) => {
+    let images_delete = gallery_model.images_delete(req.params.id)
+    images_delete.then(data => {
+        if (data) {
+            res.send({ status: true, url: '/admin/gallery_show/'+data.galleryId, msg: 'successfully Delete' })
+        } else {
+            res.send({ status: false, url: '/admin/gallery_show/'+data.galleryId, msg: 'fail to Delete' })
+        }
+    }).catch(err => {
+        res.send({ status: true, url: '/admin/gallery_show/'+data.galleryId, msg: err })
+    }
+    )
+}

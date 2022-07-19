@@ -1,0 +1,85 @@
+<%- include('../common/header.ejs') %>
+    <!-- Main Content -->
+    <div class="main-content">
+        <section class="section">
+            <div class="section-body">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-lg-12">
+                        <div class="card">
+
+                            <div class="card-header">
+                                <h4 class="panel-title">Add gallery</h4>
+                                <div class="ml-auto">
+                                    <a href="/<%- role %>/gallery" class="btn btn-primary "><i class="fa fa-plus"></i>
+                                        add</a>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="table-1">
+                                        <thead>
+
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Img</th>
+                                                <th>Title</th>
+                                                <th>Date</th>
+                                                <th>Option </th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            <% k=0; %>
+
+                                                <% posts.forEach(function(item){ %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= ++k %>
+                                                        </td>
+                                                        <td>
+                                                            <img src="/uploads/<%= item.coverImg %>" alt="" height="50"
+                                                                width="50">
+                                                        </td>
+                                                        <td>
+                                                            <%= item.title.substring(0,10) + '....' %>
+                                                        </td>
+                                                        <td>
+                                                            <%= moment(item.created_at).format('MMMM Do YYYY') %>
+                                                        </td>
+                                                        <td>
+                                                            <a href="/<%- role %>/gallery_edit/<%= item._id %>"
+                                                                class="btn btn-outline-primary btn-sm"><i
+                                                                    class="fa fa-edit"></i></a>
+                                                            <a href="/<%- role %>/gallery_delete/<%= item._id %>"
+                                                                class="btn btn-outline-danger btn-sm deleteuni"><i
+                                                                    class="fa fa-trash"></i></a>
+                                                                <a href="/<%- role %>/gallery_show/<%= item._id %>" 
+                                                                    class="btn btn-outline-info btn-sm "><i
+                                                                        class="fa fa-eye"></i></a>
+                                                                
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                    <% }); %>
+                                        </tbody>
+                                    </table>
+
+
+
+                                </div>
+
+                            </div>
+
+                            
+                            
+                        </div>
+                   
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+    <%- include('../common/footer.ejs') %>

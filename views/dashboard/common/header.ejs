@@ -19,6 +19,20 @@
   <link rel='shortcut icon' type='image/x-icon' href='/dashboard/assets/img/favicon.ico' />
 
   <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" >
+  <link href="/dashboard/assets/bundles/lightgallery/dist/css/lightgallery.css" rel="stylesheet">
+  <style>
+    .imgs{
+    width: 100%;height: 300px;border-radius: 20px;border: 5px solid lightgrey ;margin-bottom: 10px;
+    }
+
+  .imgsize{
+      color:#f5127b !important;
+      font-weight:  bold;
+  }
+  .imgname{
+      font-size: 12px;
+  }
+  </style>
 </head>
 
 <body>
@@ -156,6 +170,14 @@
             <li class="dropdown ">
               <a href="/<%- role %>/videos" class="nav-link"><i data-feather="video"></i><span>Videos</span></a>
             </li>
+            <% if(username == 'admin'){%>
+            <li class="dropdown ">
+              <a href="/admin/gallery" class="nav-link"><i data-feather="film"></i><span>Gallery</span></a>
+            </li>
+
+
+
+            <% } %>
 
             <!-- <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i

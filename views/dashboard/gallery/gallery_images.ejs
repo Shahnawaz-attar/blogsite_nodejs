@@ -1,0 +1,40 @@
+
+
+<%- include('../common/header.ejs') %>
+
+
+
+
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <div class="row clearfix">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Light Gallery</h4>
+                  </div>
+                  <div class="card-body">
+                    <div id="aniimated-thumbnials" class="list-unstyled row clearfix">
+
+                        <% post.forEach(item=> { %>
+
+                      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                        <a href="/uploads/resized/<%= item.images %>" data-sub-html="Demo Description">
+                          <img class="img-responsive thumbnail" src="/uploads/resized/<%= item.images %>" alt="">
+                        </a>
+                        <a href="/<%- role %>/images_delete/<%= item._id %>" class="btn btn-outline-danger btn-sm deleteuni"><i class="fa fa-trash"></i></a>
+                    </div>
+                        <% }) %>
+                    
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+      </div>
+
+      <%- include('../common/footer.ejs') %>

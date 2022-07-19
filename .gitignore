@@ -2,3 +2,4 @@ node_modules
 package-lock.json
 public/dashboard/assets
 public/uploads
+public/uploads/resized

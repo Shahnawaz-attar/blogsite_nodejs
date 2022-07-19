@@ -74,6 +74,22 @@ module.exports = (app) => {
     app.get('/admin/video_edit/:id',redirectLogin,videos_controller.get_video);
 
 
-    
+    //Gallery
+    app.get('/admin/gallery',redirectLogin,admin_controller.create_gallery);
+
+    //save_gallery
+    app.post('/admin/save_gallery',admin_controller.save_gallery);
+
+    // gallery_list
+    app.get('/admin/gallery_list',redirectLogin,admin_controller.get_all_gallery);
+
+    //gallery_show
+    app.get('/admin/gallery_show/:id',redirectLogin,admin_controller.get_gallery);
+
+    //gallery_delete
+    app.get('/admin/gallery_delete/:id',redirectLogin,admin_controller.gallery_delete);
+
+    //images_delete
+    app.get('/admin/images_delete/:id',redirectLogin,admin_controller.images_delete);
 
 }
