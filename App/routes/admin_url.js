@@ -95,4 +95,13 @@ module.exports = (app) => {
     // edit_gallery
     app.get('/admin/edit_gallery/:id',redirectLogin,admin_controller.edit_gallery);
 
+
+        //upload_files
+
+    //create file upload form
+    app.get('/admin/upload_files' ,redirectLogin,admin_controller.create_file_upload_form);
+
+    //save_files
+    app.post('/admin/save_files',admin_controller.save_files);
+
 }

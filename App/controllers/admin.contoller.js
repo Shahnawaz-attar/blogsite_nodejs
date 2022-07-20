@@ -1,7 +1,11 @@
 const auth_model = require('../models/auth.model');
 const upload_files = require('../middleware/upload_files');
 const admin_model = require('../models/admin.model')
-const gallery_model = require('../models/gallery.model'); 
+const gallery_model = require('../models/gallery.model');
+const csv = require('csvtojson');
+const xlsx = require('xlsx');
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
 
 
 exports.get_user_info = ((req, resp) => {
@@ -83,56 +87,55 @@ exports.create_gallery = (req, res) => {
 
 // save multiple images with title 
 exports.save_gallery = (req, res) => {
-   
+
     let uploaded_files = upload_files.upload.fields([{ name: 'coverImg', maxCount: 1 }, { name: 'images', maxCount: 10 }]);
 
-    
+
 
     uploaded_files(req, res, (err) => {
-            
-            if (err) throw err;
-            // resize images upload_files.resizeImage
-            let images = req.files.images;
-            if (images) {
-                images.forEach(image => {
-                    upload_files.resizeImage(image, 255, 150).then(data => {
-                    })
-                }
-                )
-            }
 
-            let data = {
-                title: req.body.title,
-                images: req.files.images ? req.files.images.map(image => image.filename) : [],
-            }
-            if (req.files != undefined  && req.files.coverImg) {
-                data.coverImg =req.files.coverImg[0].filename;
-            }
-            // update if id is exist
-            let result 
-            if (req.body.id != null) {
-                data.id = req.body.id;
-                result = gallery_model.update_gallery(data);
-            }else
-            {
-
-                result = gallery_model.save_gallery(data);
-            }
-            
-
-            result.then(data => {
-                if (data != null) {
-                    res.send({ status: true, url: '/admin/gallery_list', msg: req.body.id ? 'Update success' : 'Create success' });
-                } else {
-                    res.send({ status: false, url: '/admin/gallery_list', msg: req.body.id ? 'fail to Update' : 'fail to Create' })
-                }
-            }
-            ).catch(err => {
-                res.send({ status: false, url: '/admin/gallery_list', msg: 'Something went wrong', })
+        if (err) throw err;
+        // resize images upload_files.resizeImage
+        let images = req.files.images;
+        if (images) {
+            images.forEach(image => {
+                upload_files.resizeImage(image, 255, 150).then(data => {
+                })
             }
             )
-            
-        })
+        }
+
+        let data = {
+            title: req.body.title,
+            images: req.files.images ? req.files.images.map(image => image.filename) : [],
+        }
+        if (req.files != undefined && req.files.coverImg) {
+            data.coverImg = req.files.coverImg[0].filename;
+        }
+        // update if id is exist
+        let result
+        if (req.body.id != null) {
+            data.id = req.body.id;
+            result = gallery_model.update_gallery(data);
+        } else {
+
+            result = gallery_model.save_gallery(data);
+        }
+
+
+        result.then(data => {
+            if (data != null) {
+                res.send({ status: true, url: '/admin/gallery_list', msg: req.body.id ? 'Update success' : 'Create success' });
+            } else {
+                res.send({ status: false, url: '/admin/gallery_list', msg: req.body.id ? 'fail to Update' : 'fail to Create' })
+            }
+        }
+        ).catch(err => {
+            res.send({ status: false, url: '/admin/gallery_list', msg: 'Something went wrong', })
+        }
+        )
+
+    })
 
 
 
@@ -181,12 +184,12 @@ exports.images_delete = (req, res) => {
     let images_delete = gallery_model.images_delete(req.params.id)
     images_delete.then(id => {
         if (id) {
-            res.send({ status: true, url: '/admin/gallery_show/'+id, msg: 'successfully Delete' })
+            res.send({ status: true, url: '/admin/gallery_show/' + id, msg: 'successfully Delete' })
         } else {
-            res.send({ status: false, url: '/admin/gallery_show/'+id, msg: 'fail to Delete' })
+            res.send({ status: false, url: '/admin/gallery_show/' + id, msg: 'fail to Delete' })
         }
     }).catch(err => {
-        res.send({ status: true, url: '/admin/gallery_show/'+id, msg: err })
+        res.send({ status: true, url: '/admin/gallery_show/' + id, msg: err })
     }
     )
 }
@@ -195,7 +198,7 @@ exports.images_delete = (req, res) => {
 exports.edit_gallery = (req, res) => {
     let edit_gallery = gallery_model.get_gallery(req.params.id)
     let get_images = gallery_model.get_images(req.params.id)
-    
+
     Promise.all([edit_gallery, get_images]).then(data => {
         res.render('dashboard/gallery/create-gallery', { post: data[0], images: data[1] })
     }
@@ -204,3 +207,84 @@ exports.edit_gallery = (req, res) => {
     }
     )
 }
+
+//create_file_upload_form
+exports.create_file_upload_form = (req, res) => {
+    res.render('dashboard/upload_files/upload_files', { post: null })
+}
+
+
+//save_files
+exports.save_files = (req, res) => {
+    let uploaded_files = upload_files.upload.fields([{ name: 'file', maxCount: 1 }]);
+    uploaded_files(req, res, (err) => {
+        let extension = req.files.file[0].originalname.split('.').pop();
+        if (extension == 'csv') {
+
+            // first take all and save it to var then insertMany
+            const csvValues = [];
+
+            csv().fromFile(req.files.file[0].path).then(data => {
+                data.forEach(row => {
+                    let data = {
+                        name: row.Name,
+                        email: row.Email,
+                        phone: row.Mobile,
+                        address: row.Designation
+               
+                }
+                    csvValues.push(data)
+            })
+               
+
+
+          
+            }).then(() => {
+                let save_files = admin_model.save_files(csvValues)
+                save_files.then(data => {
+                    res.send({ status: true, url: '/admin/upload_files', msg: 'successfully Upload' })
+                }).catch(err => {
+                    res.send({ status: false, url: '/admin/upload_files', msg: 'fail to Upload' })
+                }
+                )
+            }).catch(err => {
+                res.send({ status: false, url: '/admin/upload_files', msg: 'fail to Upload' })
+            });
+
+
+
+        }
+        if (extension == 'xlsx') {
+            const file = xlsx.readFile(req.files.file[0].path);
+            const sheet =  file.Sheets[file.SheetNames[0]];
+            const data = xlsx.utils.sheet_to_json(sheet);
+
+            let xlsxValues = [];
+            data.forEach(row => {
+                let data = {
+                    name: row.Name,
+                    email: row.Email,
+                    phone: row.Mobile,
+                    address: row.Designation
+                }
+                xlsxValues.push(data)
+            })
+            
+            let save_files = admin_model.save_files(xlsxValues)
+            save_files.then(data => {
+                res.send({ status: true, url: '/admin/upload_files', msg: 'successfully Upload' })
+            }
+            ).catch(err => {
+                res.send({ status: false, url: '/admin/upload_files', msg: 'fail to Upload' })
+            })
+
+           
+        }
+        
+          
+    }
+    )
+}
+
+
+

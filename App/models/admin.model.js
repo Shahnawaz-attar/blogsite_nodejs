@@ -1,4 +1,5 @@
 const newslatterSchema = require('../schema/newslatter.schema')
+const filesSchema      = require('../schema/files.schema')
 
 
 
@@ -20,8 +21,14 @@ const delete_newslatter = async (id)=>{
 }
 
 
+//save_files
+const save_files = async (post)=>{
+        return await filesSchema.insertMany(post)
+}
+
 module.exports = {
     get_newslatter,
     save_newslatter,
-    delete_newslatter
+    delete_newslatter,
+    save_files
 }
