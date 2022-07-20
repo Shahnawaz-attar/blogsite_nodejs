@@ -27,7 +27,8 @@ module.exports = (app) => {
 
     // /search/:search request is get request by form 
 
-    app.get('/:search',homeController.search);
+   // get search text from form with get request
+    app.get('/search',homeController.search);
  
 
    
