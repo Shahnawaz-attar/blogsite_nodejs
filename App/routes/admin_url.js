@@ -92,4 +92,7 @@ module.exports = (app) => {
     //images_delete
     app.get('/admin/images_delete/:id',redirectLogin,admin_controller.images_delete);
 
+    // edit_gallery
+    app.get('/admin/edit_gallery/:id',redirectLogin,admin_controller.edit_gallery);
+
 }

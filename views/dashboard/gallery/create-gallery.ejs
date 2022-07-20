@@ -36,7 +36,7 @@
 
                                             </div>
 
-
+                                         
 
                                             <div class="form-group">
                                                 <label class="control-label">Cover Image <span
@@ -96,6 +96,26 @@
                             </div>
 
 
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="panel-title">Gallery List</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+
+                                    <% images.forEach(item=>{ %>
+
+                                    <div class="col-lg-3 my-2">
+                                        <img src="/uploads/resized/<%= item.images%>" alt="" height="150" width="150">
+                                        <a href="/<%- role %>/images_delete/<%= item._id %>" class="btn btn-outline-danger btn-sm deleteuni"><i class="fa fa-trash"></i></a>
+
+                                    </div>
+
+                                    <%})%>
+                                </div>
+                            </div>
                         </div>
 
 

@@ -44,7 +44,7 @@ exports.get_all_gallery = async () => {
 
 
 //get_gallery
-exports.get_gallery = async (id) => {
+exports.get_images = async (id) => {
 
     let result = await imagesSchema.find({ galleryId: id });
     return result;
@@ -90,16 +90,18 @@ exports.gallery_delete = async (id) => {
             })
         }
         let result_delete = await gallerySchema.deleteOne({ _id: ObjectId(id) });
-        if (result_delete != null ) {
+        if (result_delete != null) {
             return true;
         }
 
     }
 
-}    
+}
 //images_delete
 exports.images_delete = async (id) => {
+    let galleryId;
     let result = await imagesSchema.find({ _id: id });
+    galleryId = result[0].galleryId;
     if (result != null) {
         let image_path = path.join(__dirname, '../../public/uploads/resized/' + result[0].images);
         if (fs.existsSync(image_path) && image_path != '') {
@@ -113,7 +115,54 @@ exports.images_delete = async (id) => {
         // return delete_images(id);
         let result_delete = await imagesSchema.deleteOne({ _id: ObjectId(id) });
         if (result_delete != null) {
-            return true;
+            return galleryId;
         }
     }
+}
+
+//get_gallery
+exports.get_gallery = async (id) => {
+
+    let result = await gallerySchema.findById(id);
+    return result;
+}
+
+//update_gallery
+exports.update_gallery = async (post) => {
+    if (post.coverImg) {
+        let result = await gallerySchema.findById(post.id);
+       if(result.coverImg != ''){
+        let cover_img_path = path.join(__dirname, '../../public/uploads/' + result.coverImg);
+        if (fs.existsSync(cover_img_path) && cover_img_path != '') {
+            fs.unlink(cover_img_path, (err) => {
+                if (err) {
+                    console.log(err);
+                }
+            }
+            )
+        }
+       }
+    }
+    // if post.images just add new images with same post.id 
+    if (post.images != '') {
+        let images = post.images;
+        let images_array = [];
+        for (let i = 0; i < images.length; i++) {
+            let image = {
+                galleryId: post.id,
+                images: images[i]
+            }
+            images_array.push(image);
+        }
+        let images_result = await imagesSchema.insertMany(images_array);
+       
+    }
+
+    let result = await gallerySchema.findByIdAndUpdate(post.id, post);
+    if (result != null) {
+        return true;
+    }
+   
+
+        
 }

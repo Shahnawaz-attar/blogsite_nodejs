@@ -101,21 +101,30 @@ exports.save_gallery = (req, res) => {
                 )
             }
 
-            console.log(req.files.coverImg[0].filename)
-        
-
-
             let data = {
                 title: req.body.title,
-                coverImg: req.files.coverImg[0].filename,
-                images: req.files.images.map(image => image.filename)
+                images: req.files.images ? req.files.images.map(image => image.filename) : [],
             }
-            let result = gallery_model.save_gallery(data);
+            if (req.files != undefined  && req.files.coverImg) {
+                data.coverImg =req.files.coverImg[0].filename;
+            }
+            // update if id is exist
+            let result 
+            if (req.body.id != null) {
+                data.id = req.body.id;
+                result = gallery_model.update_gallery(data);
+            }else
+            {
+
+                result = gallery_model.save_gallery(data);
+            }
+            
+
             result.then(data => {
                 if (data != null) {
-                    res.send({ status: true, url: '/admin/gallery_list', msg: 'successfully created' })
+                    res.send({ status: true, url: '/admin/gallery_list', msg: req.body.id ? 'Update success' : 'Create success' });
                 } else {
-                    res.send({ status: false, url: '/admin/gallery_list', msg: 'fail to created' })
+                    res.send({ status: false, url: '/admin/gallery_list', msg: req.body.id ? 'fail to Update' : 'fail to Create' })
                 }
             }
             ).catch(err => {
@@ -143,7 +152,7 @@ exports.get_all_gallery = (req, res) => {
 
 //get_gallery
 exports.get_gallery = (req, res) => {
-    let get_gallery = gallery_model.get_gallery(req.params.id)
+    let get_gallery = gallery_model.get_images(req.params.id)
     get_gallery.then(data => {
         res.render('dashboard/gallery/gallery_images', { post: data })
     }).catch(err => {
@@ -170,14 +179,28 @@ exports.gallery_delete = (req, res) => {
 //images_delete
 exports.images_delete = (req, res) => {
     let images_delete = gallery_model.images_delete(req.params.id)
-    images_delete.then(data => {
-        if (data) {
-            res.send({ status: true, url: '/admin/gallery_show/'+data.galleryId, msg: 'successfully Delete' })
+    images_delete.then(id => {
+        if (id) {
+            res.send({ status: true, url: '/admin/gallery_show/'+id, msg: 'successfully Delete' })
         } else {
-            res.send({ status: false, url: '/admin/gallery_show/'+data.galleryId, msg: 'fail to Delete' })
+            res.send({ status: false, url: '/admin/gallery_show/'+id, msg: 'fail to Delete' })
         }
     }).catch(err => {
-        res.send({ status: true, url: '/admin/gallery_show/'+data.galleryId, msg: err })
+        res.send({ status: true, url: '/admin/gallery_show/'+id, msg: err })
+    }
+    )
+}
+
+//edit_gallery
+exports.edit_gallery = (req, res) => {
+    let edit_gallery = gallery_model.get_gallery(req.params.id)
+    let get_images = gallery_model.get_images(req.params.id)
+    
+    Promise.all([edit_gallery, get_images]).then(data => {
+        res.render('dashboard/gallery/create-gallery', { post: data[0], images: data[1] })
+    }
+    ).catch(err => {
+        console.log(err)
     }
     )
 }
