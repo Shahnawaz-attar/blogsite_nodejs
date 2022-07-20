@@ -97,7 +97,8 @@
 
 
                         </div>
-                        
+                        <%   if(images.length>0){ %>
+                      
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="panel-title">Gallery List</h4>
@@ -105,6 +106,8 @@
                             <div class="card-body">
                                 <div class="row">
 
+                                     
+                                
                                     <% images.forEach(item=>{ %>
 
                                     <div class="col-lg-3 my-2">
@@ -113,11 +116,13 @@
 
                                     </div>
 
-                                    <%})%>
+                                    <% }) %>
+                               
                                 </div>
                             </div>
                         </div>
-
+                  
+                        <% } %>
 
                     </div>
 

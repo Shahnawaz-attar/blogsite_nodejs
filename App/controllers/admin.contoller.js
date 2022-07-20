@@ -82,7 +82,7 @@ exports.newslatter_delete = (req, res) => {
 
 //create_gallery
 exports.create_gallery = (req, res) => {
-    res.render('dashboard/gallery/create-gallery', { post: null })
+    res.render('dashboard/gallery/create-gallery', { post: null , images:[] })
 }
 
 // save multiple images with title 
