@@ -78,3 +78,9 @@ exports.search = (req, res) => {
     }
     )
 }
+
+
+//getProducts by web scraping
+exports.getProducts = (req, res) => {
+    
+}

@@ -2,7 +2,7 @@ module.exports = (app) => {
 
 
     const homeController = require('../controllers/home.controller')
-
+    const scrapingController = require('../controllers/scrapping.controller')
 
     // website routes
     app.get('/', homeController.getHome);
@@ -29,6 +29,10 @@ module.exports = (app) => {
 
    // get search text from form with get request
     app.get('/search',homeController.search);
+
+
+    //web scraping
+    app.get('/products',scrapingController.getProducts);
  
 
    
