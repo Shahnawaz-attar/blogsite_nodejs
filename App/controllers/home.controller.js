@@ -110,17 +110,95 @@ exports.all_posts_api = (req, res) => {
 
 //add_contact
 exports.add_contact = (req, res) => {
-    let result = admin_model.save_contact(req.body);
-    result.then(data => {
-
-        if (data != null) {
-            res.send({ status: true, msg: 'Thank you we will contact you soon' })
-        } else {
-            res.send({ status: false, msg: 'fail to contact' })
+    console.log(req.body);
+    if (req.body._id == null || req.body._id == '') {
+        delete req.body._id;
+        let result = admin_model.save_contact(req.body);
+        result.then((contact) => {
+            if (contact != null) {
+                res.send({ status: true, msg: 'contact added' })
+            } else {
+                res.send({ status: false, msg: 'fail to add contact' })
+            }
         }
-    }).catch(err => {
-        res.send({ status: true, msg: 'something went wrong' })
-    })
+        ).catch(err => {
+            res.send(err);
+        }
+        )
+    }else{
+        let result = admin_model.update_contact(req.body);
+        result.then((contact) => {
+            if (contact != null) {
+                res.send({ status: true, msg: 'contact updated' })
+            } else {
+                res.send({ status: false, msg: 'fail to update contact' })
+            }
+        }
+        ).catch(err => {
+            res.send(err);
+        }
+        )
+    }
+
+    // let result = admin_model.save_contact(req.body);
+    // result.then(data => {
+
+    //     if (data != null) {
+    //         res.send({ status: true, msg: 'Thank you we will contact you soon' })
+    //     } else {
+    //         res.send({ status: false, msg: 'fail to contact' })
+    //     }
+    // }).catch(err => {
+    //     res.send({ status: true, msg: 'something went wrong' })
+    // })
 
 } 
+
+//contact_list
+exports.contact_list = (req, res) => {
+    let result = admin_model.get_contact_list();
+    result.then((contacts) => {
+        if (contacts != null) {
+            res.send({ status: true, contacts: contacts })
+        } else {
+            res.send({ status: false, msg: 'no contacts' })
+        }
+    }
+    ).catch(err => {
+        res.send(err);
+    }
+    )
+}
+
+//edit_contact
+exports.edit_contact = (req, res) => {
+    let result = admin_model.get_contact(req.params.id);
+    result.then((contact) => {
+        if (contact != null) {
+            res.send({ status: true, contact: contact })
+        } else {
+            res.send({ status: false, msg: 'no contact' })
+        }
+    }
+    ).catch(err => {
+        res.send(err);
+    }
+    )
+}
+
+//contact_delete
+exports.contact_delete = (req, res) => {
+    let result = admin_model.contact_delete(req.params.id);
+    result.then((contact) => {
+        if (contact != null) {
+            res.send({ status: true, msg: 'contact deleted' })
+        } else {
+            res.send({ status: false, msg: 'fail to delete contact' })
+        }
+    }
+    ).catch(err => {
+        res.send(err);
+    }
+    )
+}
     

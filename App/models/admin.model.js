@@ -35,10 +35,34 @@ const save_contact = async (post) => {
     
 }
 
+//get_contact_list
+const get_contact_list = async () => {
+    return await contactSchema.find()
+} 
+
+//get_contact
+const get_contact = async (id) => {
+    return await contactSchema.findById(id)
+}
+
+//update_contact
+const update_contact = async (post) => {
+    return await contactSchema.findByIdAndUpdate(post._id, post)
+}
+
+//delete_contact
+const contact_delete = async (id) => {
+    return await contactSchema.findByIdAndDelete(id)
+}
+
 module.exports = {
     get_newslatter,
     save_newslatter,
     delete_newslatter,
     save_files,
-    save_contact
+    save_contact,
+    get_contact_list,
+    get_contact,
+    update_contact,
+    contact_delete
 }
