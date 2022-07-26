@@ -5,6 +5,8 @@ const post_model = require('../models/post.model');
 const banner_model = require('../models/banner.model')
 const admin_model = require('../models/admin.model')
 const videoModel = require('../models/video.model');
+const upload_file = require('../middleware/upload_files');
+
 const baseUrl = 'http://localhost:4000/uploads/';
 
 exports.getHome = ((req, resp) => {
@@ -110,55 +112,88 @@ exports.all_posts_api = (req, res) => {
 
 //add_contact
 exports.add_contact = (req, res) => {
-    console.log(req.body);
-    if (req.body._id == null || req.body._id == '') {
-        delete req.body._id;
-        let result = admin_model.save_contact(req.body);
-        result.then((contact) => {
-            if (contact != null) {
-                res.send({ status: true, msg: 'contact added' })
+ 
+   
+        delete req.body.id;
+        let upload_file_name = upload_file.upload.single('file');
+        upload_file_name(req, res, (err) => {
+            if (err) {
+                res.send(err);
             } else {
-                res.send({ status: false, msg: 'fail to add contact' })
+               
+                if (req.body.isUpdate == 'false' || req.body.id == 'undefined') {
+
+
+                const data = {
+                    name: req.body.name,
+                    email: req.body.email,
+                    message: req.body.message,
+                    file: req.file.filename
+                }
+                let result = admin_model.save_contact(data);
+                result.then((contact) => {
+                    if (contact != null) {
+                        res.send({ status: true, msg: 'contact added' })
+                    } else {
+                        res.send({ status: false, msg: 'fail to add contact' })
+                    }
+                }
+                ).catch(err => {
+                    res.send(err);
+                }
+                )
+
+            }else{
+                let data = {
+                    name: req.body.name,
+                    email: req.body.email,
+                    message: req.body.message,
+                    id: req.body.id,
+                }
+                if (req.file ) {
+                    data.file = req.file.filename;
+                }
+                let result = admin_model.update_contact(data);
+                result.then((contact) => {
+                    if (contact != null) {
+                        res.send({ status: true, msg: 'contact updated' })
+                    } else {
+                        res.send({ status: false, msg: 'fail to update contact' })
+                    }
+                }
+                ).catch(err => {
+                    res.send(err);
+                } )
+                
             }
-        }
-        ).catch(err => {
-            res.send(err);
-        }
-        )
-    }else{
-        let result = admin_model.update_contact(req.body);
-        result.then((contact) => {
-            if (contact != null) {
-                res.send({ status: true, msg: 'contact updated' })
-            } else {
-                res.send({ status: false, msg: 'fail to update contact' })
+
+
             }
-        }
-        ).catch(err => {
-            res.send(err);
-        }
-        )
-    }
 
-    // let result = admin_model.save_contact(req.body);
-    // result.then(data => {
 
-    //     if (data != null) {
-    //         res.send({ status: true, msg: 'Thank you we will contact you soon' })
-    //     } else {
-    //         res.send({ status: false, msg: 'fail to contact' })
-    //     }
-    // }).catch(err => {
-    //     res.send({ status: true, msg: 'something went wrong' })
-    // })
 
-} 
+        })
+
+    
+
+
+
+
+        
+    
+
+
+}
 
 //contact_list
 exports.contact_list = (req, res) => {
     let result = admin_model.get_contact_list();
     result.then((contacts) => {
         if (contacts != null) {
+            contacts.forEach(contact => {
+                contact.file = `${baseUrl}${contact.file}`;
+            })
+           
             res.send({ status: true, contacts: contacts })
         } else {
             res.send({ status: false, msg: 'no contacts' })
@@ -175,6 +210,10 @@ exports.edit_contact = (req, res) => {
     let result = admin_model.get_contact(req.params.id);
     result.then((contact) => {
         if (contact != null) {
+            
+            contact.file = `${baseUrl}${contact.file}`;
+            
+            
             res.send({ status: true, contact: contact })
         } else {
             res.send({ status: false, msg: 'no contact' })
@@ -201,4 +240,3 @@ exports.contact_delete = (req, res) => {
     }
     )
 }
-    

@@ -1,6 +1,8 @@
 const newslatterSchema = require('../schema/newslatter.schema')
 const filesSchema      = require('../schema/files.schema')
 const contactSchema = require('../schema/contact.schema')
+const path  = require('path');
+const fs = require('fs');
 
 
 
@@ -47,12 +49,39 @@ const get_contact = async (id) => {
 
 //update_contact
 const update_contact = async (post) => {
-    return await contactSchema.findByIdAndUpdate(post._id, post)
+    
+    if(post.file !=null || post.file != ''){
+        let get_record = await contactSchema.findById(post.id);
+        if(get_record.file){
+            let filename = get_record.file;
+            let filepath = path.join(__dirname, '../../public/uploads/'+filename);
+            fs.unlink(filepath,(err)=>{
+                if(err){
+                    console.log(err);
+                }
+            })
+        }
+        
+
+    }
+
+    return await contactSchema.findByIdAndUpdate(post.id, post)
+
 }
 
 //delete_contact
 const contact_delete = async (id) => {
+    
+    const get_record = await contactSchema.findById(id);
+    if(get_record.file != null){
+        const filename = get_record.file;
+        const filepath = path.join(__dirname, '../../public/uploads/'+filename);
+        if(fs.existsSync(filepath) && filepath != null){
+            fs.unlinkSync(filepath);
+        }
+    }
     return await contactSchema.findByIdAndDelete(id)
+
 }
 
 module.exports = {
