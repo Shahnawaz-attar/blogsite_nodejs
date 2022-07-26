@@ -62,16 +62,17 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-
+app.use(cors())
 
 // set routes
 require('./App/routes/website_url')(app)
 require('./App/routes/admin_url')(app)
 require('./App/routes/users_url')(app)
 require('./App/routes/auth_url')(app)
+require('./App/routes/api')(app)
 
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 4000
 app.listen(port, () => {
     console.log(`App is running at port ${port}`)
 })

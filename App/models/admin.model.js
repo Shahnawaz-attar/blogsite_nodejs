@@ -1,5 +1,6 @@
 const newslatterSchema = require('../schema/newslatter.schema')
 const filesSchema      = require('../schema/files.schema')
+const contactSchema = require('../schema/contact.schema')
 
 
 
@@ -26,9 +27,18 @@ const save_files = async (post)=>{
         return await filesSchema.insertMany(post)
 }
 
+
+// api section
+// save_newslatter
+const save_contact = async (post) => {
+    return await contactSchema(post).save()
+    
+}
+
 module.exports = {
     get_newslatter,
     save_newslatter,
     delete_newslatter,
-    save_files
+    save_files,
+    save_contact
 }

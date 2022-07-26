@@ -5,6 +5,7 @@ const post_model = require('../models/post.model');
 const banner_model = require('../models/banner.model')
 const admin_model = require('../models/admin.model')
 const videoModel = require('../models/video.model');
+const baseUrl = 'http://localhost:4000/uploads/';
 
 exports.getHome = ((req, resp) => {
 
@@ -82,5 +83,44 @@ exports.search = (req, res) => {
 
 //getProducts by web scraping
 exports.getProducts = (req, res) => {
-    
+
 }
+
+
+//API section
+
+// all_posts_api
+exports.all_posts_api = (req, res) => {
+    let result = post_model.get_all_post();
+    result.then((posts) => {
+        // for coverImage add base url
+        posts.forEach(post => {
+            post.coverImg = `${baseUrl}${post.coverImg}`;
+        }
+        )
+        res.send(posts)
+    }
+    ).catch(err => {
+        res.send(err);
+    }
+    )
+
+}
+
+
+//add_contact
+exports.add_contact = (req, res) => {
+    let result = admin_model.save_contact(req.body);
+    result.then(data => {
+
+        if (data != null) {
+            res.send({ status: true, msg: 'Thank you we will contact you soon' })
+        } else {
+            res.send({ status: false, msg: 'fail to contact' })
+        }
+    }).catch(err => {
+        res.send({ status: true, msg: 'something went wrong' })
+    })
+
+} 
+    
