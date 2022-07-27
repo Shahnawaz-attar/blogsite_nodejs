@@ -4,3 +4,5 @@ public/dashboard/assets
 public/uploads
 public/uploads/resized
 public/uploads/files
+
+npm-debug.log

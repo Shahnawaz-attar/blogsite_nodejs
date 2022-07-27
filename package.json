@@ -4,8 +4,7 @@
   "description": "Its a simple multi user blogging site for practice of nodejs and mongodb",
   "main": "index.js",
   "scripts": {
-    "serve": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js"
   },
   "keywords": [
     "Nodejs",
@@ -46,5 +45,10 @@
     "pretty": "^2.0.0",
     "sharp": "^0.30.7",
     "xlsx": "^0.18.5"
+  },
+  "engines": {
+    "node": "14.4.0"
   }
+    
+
 }
