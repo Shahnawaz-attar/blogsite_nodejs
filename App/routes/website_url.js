@@ -1,43 +1,29 @@
 module.exports = (app) => {
+  const homeController = require("../controllers/home.controller");
+  const scrapingController = require("../controllers/scrapping.controller");
 
+  // website routes
+  app.get("/", homeController.getHome);
 
-    const homeController = require('../controllers/home.controller')
-    const scrapingController = require('../controllers/scrapping.controller')
+  app.get("/login", (req, res) => {
+    res.render("login");
+  });
 
-    // website routes
-    app.get('/', homeController.getHome);
+  app.get("/register", (req, res) => {
+    res.render("register");
+  });
+  app.get("/post_detail/:id", homeController.get_post_detail);
 
+  app.post("/save_newslatter", homeController.save_newslatter);
 
-    app.get('/login',(req,res) =>{
+  // all_posts
+  app.get("/all_posts", homeController.all_posts);
 
-        res.render('login');
-    })
+  // /search/:search request is get request by form
 
-    app.get('/register',(req,res) =>{
+  // get search text from form with get request
+  app.get("/search", homeController.search);
 
-        res.render('register');
-    })
-    app.get('/post_detail/:id',homeController.get_post_detail)
-
-
-    app.post('/save_newslatter',homeController.save_newslatter);
-
-    // all_posts
-    app.get('/all_posts',homeController.all_posts);
-
-    // /search/:search request is get request by form 
-
-   // get search text from form with get request
-    app.get('/search',homeController.search);
-
-
-    //web scraping
-    app.get('/products',scrapingController.getProducts);
- 
-
-
-
-   
-
-
-}
+  //web scraping
+  app.get("/products", scrapingController.getProducts);
+};
