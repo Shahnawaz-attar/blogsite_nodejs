@@ -1,81 +1,76 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const cors = require('cors')
-const path = require('path')
-var session = require('express-session');
-var bodyParser = require('body-parser');
-const moment = require('moment');
-const MongoStore = require('connect-mongo');
+const cors = require("cors");
+const path = require("path");
+var session = require("express-session");
+var bodyParser = require("body-parser");
+const moment = require("moment");
+const MongoStore = require("connect-mongo");
 app.use((req, res, next) => {
-    res.locals.moment = moment;
-    next();
+  res.locals.moment = moment;
+  next();
 });
-const ObjectId = require('mongoose').Types.ObjectId;
+const ObjectId = require("mongoose").Types.ObjectId;
 // require('dotenv').config();
 //db connect
-require('./App/db');
+require("./App/db");
 
-    app.use(session({
-        secret: 'secret',
-        resave: true,
-        saveUninitialized: true,
-        cookie: {
-            maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
-        },
-        store: MongoStore.create({
-            mongoUrl: process.env.MONGO_URI,
-            ttl: 24 * 60 * 60 * 7 // 1 week
-        })
+app.use(
+  session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+    },
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+      ttl: 24 * 60 * 60 * 7, // 1 week
+    }),
+  }),
+);
 
+app.use((req, res, next) => {
+  req.url_params = req.url.split("/")[1];
+  app.locals.url_params = req.url_params;
+  if (app.locals.url_params != "") {
+    app.locals.role = app.locals.url_params;
+  }
+  if (req.session.role != undefined && req.session.role != "") {
+    app.locals.is_login = req.session.role;
+    app.locals.username = req.session.username;
+    app.locals.userId = req.session.adminId;
+  } else {
+    app.locals.is_login = undefined;
+    app.locals.username = "Admin";
+  }
 
-
-    }));
-
-    app.use((req, res, next) => {
-        req.url_params = req.url.split('/')[1];
-        app.locals.url_params = req.url_params;
-        if (app.locals.url_params != '') {
-          app.locals.role = app.locals.url_params;
-        } 
-        if(req.session.role !=undefined && req.session.role !=''){
-            app.locals.is_login = req.session.role;
-            app.locals.username = req.session.username;
-            app.locals.userId   = req.session.adminId
-        }else{
-            app.locals.is_login = undefined;
-            app.locals.username = 'Admin';
-        }
-        
-
-        next();
-      }
-      );
+  next();
+});
 
 // app use
 // app.use(cors());
-app.use('/', express.static(__dirname + '/public'))
+app.use("/", express.static(__dirname + "/public"));
 
+//set
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 
-//set 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cors())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 // set routes
-require('./App/routes/website_url')(app)
-require('./App/routes/admin_url')(app)
-require('./App/routes/users_url')(app)
-require('./App/routes/auth_url')(app)
-require('./App/routes/api')(app)
+require("./App/routes/website_url")(app);
+require("./App/routes/admin_url")(app);
+require("./App/routes/users_url")(app);
+require("./App/routes/auth_url")(app);
+require("./App/routes/api")(app);
 
-
-const port = process.env.PORT || 4000
+const port = process.env.PORT || 4000;
 app.listen(port, () => {
-    console.log(`App is running at port ${port}`)
-})
+  console.log(`App is running at port ${port}`);
+});
 
 // Express error handling
 // app.use((req, res, next) => {
@@ -84,4 +79,3 @@ app.listen(port, () => {
 //     })
 
 // })
-
