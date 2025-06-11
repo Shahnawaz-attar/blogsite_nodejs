@@ -142,6 +142,7 @@ exports.add_contact = (req, res) => {
                     res.send(err);
                 }
                 )
+                }
 
             }else{
                 let data = {
